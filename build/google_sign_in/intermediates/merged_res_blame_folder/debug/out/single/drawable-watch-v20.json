@@ -1,0 +1,14 @@
+[
+    {
+        "merged": "C:\\Users\\Shamikh\\Desktop\\SLIIT\\Y3S2\\UEE\\etraffic\\build\\google_sign_in\\intermediates\\res\\merged\\debug\\drawable-watch-v20\\common_google_signin_btn_text_dark_normal.xml",
+        "source": "C:\\Users\\Shamikh\\.gradle\\caches\\transforms-2\\files-2.1\\424ed23d981bb3d415e7218c3aff7d1d\\jetified-play-services-auth-16.0.1\\res\\drawable-watch-v20\\common_google_signin_btn_text_dark_normal.xml"
+    },
+    {
+        "merged": "C:\\Users\\Shamikh\\Desktop\\SLIIT\\Y3S2\\UEE\\etraffic\\build\\google_sign_in\\intermediates\\res\\merged\\debug\\drawable-watch-v20\\common_google_signin_btn_text_disabled.xml",
+        "source": "C:\\Users\\Shamikh\\.gradle\\caches\\transforms-2\\files-2.1\\424ed23d981bb3d415e7218c3aff7d1d\\jetified-play-services-auth-16.0.1\\res\\drawable-watch-v20\\common_google_signin_btn_text_disabled.xml"
+    },
+    {
+        "merged": "C:\\Users\\Shamikh\\Desktop\\SLIIT\\Y3S2\\UEE\\etraffic\\build\\google_sign_in\\intermediates\\res\\merged\\debug\\drawable-watch-v20\\common_google_signin_btn_text_light_normal.xml",
+        "source": "C:\\Users\\Shamikh\\.gradle\\caches\\transforms-2\\files-2.1\\424ed23d981bb3d415e7218c3aff7d1d\\jetified-play-services-auth-16.0.1\\res\\drawable-watch-v20\\common_google_signin_btn_text_light_normal.xml"
+    }
+]
