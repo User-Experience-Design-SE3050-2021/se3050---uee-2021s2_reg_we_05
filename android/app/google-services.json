@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "34234830582",
+    "project_id": "etraffic-8ba4d",
+    "storage_bucket": "etraffic-8ba4d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:34234830582:android:a92a82ac3b8d3f134966d7",
+        "android_client_info": {
+          "package_name": "com.example.etraffic"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "34234830582-n3ru05afcmdiacr5ofi4h97j2lvjr3k3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.etraffic",
+            "certificate_hash": "913cf6cd939d3269e3869e4f2cf6d96dc02010e1"
+          }
+        },
+        {
+          "client_id": "34234830582-8167gvt5e943maqe73bacl5kh91b9fks.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCG8OjGKUxv5rU3HxM5yXZ2SqBVpDTiRrU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "34234830582-8167gvt5e943maqe73bacl5kh91b9fks.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
