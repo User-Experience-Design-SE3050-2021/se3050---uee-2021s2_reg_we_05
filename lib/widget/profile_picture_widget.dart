@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 class ProfilePictureWidget extends StatelessWidget {
-  final File? image;
+  // final File? image;
+  final String image;
   final ValueChanged<ImageSource> onClicked;
   // final String imagePath;
   // final VoidCallback onClicked;
@@ -46,7 +47,8 @@ class ProfilePictureWidget extends StatelessWidget {
   // }
 
   Widget buildImage(BuildContext context) {
-    final imagePath = this.image!.path;
+    // final imagePath = this.image!.path;
+        final imagePath = this.image;
     final image = imagePath.contains('http://')
       ? NetworkImage(imagePath)
       : FileImage(File(imagePath));

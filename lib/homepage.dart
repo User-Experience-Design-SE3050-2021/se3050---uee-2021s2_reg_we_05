@@ -21,6 +21,7 @@ class _HomePageState extends State<HomePage> {
   late User user;
   bool isLoggedIn = false;
   File? image;
+  var _firstName;
 
   Future pickImage(ImageSource source) async {
     try {
@@ -56,6 +57,7 @@ class _HomePageState extends State<HomePage> {
       setState(() {
         this.user = firebaseUser!;
         this.isLoggedIn = true;
+        _firstName = user.displayName.toString();
       });
     }
   }
@@ -76,7 +78,12 @@ class _HomePageState extends State<HomePage> {
       backgroundColor: Colors.blue.shade100,
       drawer: NavigationDrawerWidget(),
       appBar: AppBar(
-        title: Text('App Bar'),
+        foregroundColor: Colors.white,
+        backwardsCompatibility: false,
+        backgroundColor: Colors.blue.shade700,
+        title: _firstName == null 
+        ? CircularProgressIndicator()
+        : Text('Hi ' + _firstName!.split(' ').first + '!'),
       ),
       body: Container(
         child: !isLoggedIn
@@ -92,54 +99,6 @@ class _HomePageState extends State<HomePage> {
                       title: 'Open Camera',
                       icon: Icons.camera_alt,
                       onClicked: () => pickImage(ImageSource.camera)),
-
-                  // SizedBox(height: 40),
-                  // image != null
-                  //     ? Image.file(
-                  //         image!,
-                  //         width: 200,
-                  //         height: 400,
-                  //         fit: BoxFit.contain,
-                  //       )
-                  //     : FlutterLogo(size: 160)
-
-                  // Container(
-                  //   height: 400,
-                  //   child: Image(
-                  //     image: AssetImage("images/police_logo.png"),
-                  //     fit: BoxFit.contain,
-                  //   ),
-                  // ),
-                  // Container(
-                  //   child: Text(
-                  //     "Hello ${user.displayName} you are logged in as ${user.email}",
-                  //     style: TextStyle(
-                  //         fontSize: 20.0, fontWeight: FontWeight.bold),
-                  //   ),
-                  // ),
-                  // ElevatedButton(
-                  //   // onPressed: signOut,
-                  //   onPressed: () {
-                  //     final provider = Provider.of<GoogleSignInProvider>(
-                  //         context,
-                  //         listen: false);
-                  //     provider.logout();
-                  //   },
-                  //   child: Text(
-                  //     'SIGN OUT',
-                  //     style: TextStyle(
-                  //         fontSize: 20,
-                  //         fontWeight: FontWeight.bold,
-                  //         color: Colors.blue.shade900),
-                  //   ),
-                  //   style: ButtonStyle(
-                  //       shape:
-                  //           MaterialStateProperty.all<RoundedRectangleBorder>(
-                  //               RoundedRectangleBorder(
-                  //                   borderRadius: BorderRadius.circular(18.0),
-                  //                   side: BorderSide(
-                  //                       color: Colors.blue.shade900)))),
-                  // )
                 ],
               ),
       ),

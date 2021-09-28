@@ -26,22 +26,20 @@ class _StartState extends State<Start> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.blue.shade100,
       body: Container(
         alignment: Alignment.center,
-        color: Colors.blue.shade100,
+        color: Colors.lightBlue[50],
         child: Column(
           children: <Widget>[
-            SizedBox(height: 45.0),
+            SizedBox(height: 85.0),
             Container(
               child: Image(
                 image: AssetImage("images/police_logo.png"),
-                width: 100.0,
-                height: 120.0,
+                width: 160.0,
                 fit: BoxFit.contain,
               ),
             ),
-            SizedBox(height: 20.0),
+            SizedBox(height: 10.0),
             RichText(
                 text: TextSpan(
                     text: 'Welcome to ',
@@ -51,7 +49,7 @@ class _StartState extends State<Start> {
                         color: Colors.black),
                     children: <TextSpan>[
                   TextSpan(
-                      text: ' eTraffic',
+                      text: 'eTraffic',
                       style: TextStyle(
                           fontSize: 30.0,
                           fontWeight: FontWeight.bold,
@@ -62,45 +60,81 @@ class _StartState extends State<Start> {
               'You Report, We Decide',
               style: TextStyle(color: Colors.black),
             ),
-            SizedBox(height: 20.0),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                ElevatedButton(
-                  onPressed: navigateToLogin,
-                  child: Text(
-                    'LOGIN',
-                    style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.blue.shade900),
-                  ),
-                  style: ButtonStyle(
-                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                          RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(18.0),
-                              side: BorderSide(color: Colors.blue.shade900)))),
-                ),
-                SizedBox(width: 20),
-                ElevatedButton(
-                  onPressed: navigateToRegister,
-                  child: Text(
-                    'REGISTER',
-                    style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.blue.shade900),
-                  ),
-                  style: ButtonStyle(
-                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                          RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(18.0),
-                              side: BorderSide(color: Colors.blue.shade900)))),
-                ),
-              ],
+            SizedBox(height: 30.0),
+            // Row(
+            //   mainAxisAlignment: MainAxisAlignment.center,
+            //   children: <Widget>[
+            //     ElevatedButton(
+            //       onPressed: navigateToLogin,
+            //       child: Text(
+            //         'LOGIN',
+            //         style: TextStyle(
+            //             fontSize: 20,
+            //             fontWeight: FontWeight.bold,
+            //             color: Colors.blue.shade900),
+            //       ),
+            //       style: ButtonStyle(
+            //           shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+            //               RoundedRectangleBorder(
+            //                   borderRadius: BorderRadius.circular(18.0),
+            //                   side: BorderSide(color: Colors.blue.shade900)))),
+            //     ),
+            //     SizedBox(width: 20),
+            //     ElevatedButton(
+            //       onPressed: navigateToRegister,
+            //       child: Text(
+            //         'REGISTER',
+            //         style: TextStyle(
+            //             fontSize: 20,
+            //             fontWeight: FontWeight.bold,
+            //             color: Colors.blue.shade900),
+            //       ),
+            //       style: ButtonStyle(
+            //           shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+            //               RoundedRectangleBorder(
+            //                   borderRadius: BorderRadius.circular(18.0),
+            //                   side: BorderSide(color: Colors.blue.shade900)))),
+            //     ),
+            //   ],
+            // ),
+
+            ElevatedButton(
+              onPressed: navigateToLogin,
+              child: Text(
+                'LOGIN',
+                style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white),
+              ),
+              style: ButtonStyle(
+                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(100.0),
+                          )),
+                  backgroundColor: MaterialStateProperty.all<Color>(Colors.blue.shade800),
+                  padding: MaterialStateProperty.all<EdgeInsetsGeometry>(EdgeInsets.fromLTRB(110, 15, 110, 15))),
+            ),
+            SizedBox(height: 13),
+            ElevatedButton(
+              onPressed: navigateToRegister,
+              child: Text(
+                'REGISTER',
+                style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white),
+              ),
+              style: ButtonStyle(
+                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(100.0),
+                          )),
+                  backgroundColor: MaterialStateProperty.all<Color>(Colors.blue.shade800),
+                  padding: MaterialStateProperty.all<EdgeInsetsGeometry>(EdgeInsets.fromLTRB(95, 15, 95, 15))),
             ),
 
-            SizedBox(height: 10),
+            SizedBox(height: 13),
 
             // SignInButton(
             //   Buttons.Google,
@@ -110,14 +144,18 @@ class _StartState extends State<Start> {
             ElevatedButton.icon(
               style: ElevatedButton.styleFrom(
                   primary: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(100.0)
+                  ),
                   onPrimary: Colors.black,
-                  minimumSize: Size(300, 50)),
+                  textStyle: TextStyle(fontSize: 17),
+                  minimumSize: Size(280, 50)),
               icon: FaIcon(FontAwesomeIcons.google, color: Colors.red),
               label: Text(' Sign Up with Google'),
               onPressed: () {
                 final provider =
                     Provider.of<GoogleSignInProvider>(context, listen: false);
-                provider.googleLogin();
+                provider.googleLogin(context);
               },
             ),
           ],

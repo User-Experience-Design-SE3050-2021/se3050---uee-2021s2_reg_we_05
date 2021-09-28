@@ -1,4 +1,7 @@
 import 'dart:io';
+import 'package:etraffic/widget/avatar_widget.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:etraffic/widget/profile_picture_widget.dart';
@@ -19,8 +22,10 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final FirebaseStorage storage =
+      FirebaseStorage.instanceFor(bucket: 'gs://etraffic-8ba4d.appspot.com');
   FirebaseFirestore firestore = FirebaseFirestore.instance;
-  User? user;
+  final user = FirebaseAuth.instance.currentUser!;
 
   var _first_name;
   var _last_name;
@@ -31,6 +36,7 @@ class _ProfilePageState extends State<ProfilePage> {
   var val;
   late File _image;
   File? image;
+  String downloadUrl = '';
 
   @override
   void initState() {
@@ -40,22 +46,24 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   getUser() async {
-    user = await FirebaseAuth.instance.currentUser!;
-
-    _first_name = await user!.displayName.toString();
-    _last_name = await user!.displayName.toString();
-    _email = await user!.email.toString();
-    urlImage = await user!.photoURL.toString();
+    _first_name = await user.displayName.toString();
+    _last_name = await user.displayName.toString();
+    _email = await user.email.toString();
+    urlImage = await user.photoURL.toString();
 
     await FirebaseFirestore.instance
         .collection('users')
-        .doc(user!.uid)
+        .doc(user.uid)
         .get()
         .then((value) {
       _mobile = value.data()!['mobile'];
     });
 
-    _image = await urlImage;
+    //getting profile pic
+    var storageRef = await storage.ref().child('user/profile/${user.uid}');
+    downloadUrl = await storageRef.getDownloadURL();
+
+    // _image = await urlImage;
   }
 
   Future pickImage(ImageSource source) async {
@@ -100,12 +108,59 @@ class _ProfilePageState extends State<ProfilePage> {
         });
   }
 
-  signUp() {}
+  updateProfile() async {
+    if (_formKey.currentState!.validate()) {
+      _formKey.currentState!.save();
+
+      try {
+        await firestore
+            .collection('users')
+            .doc(user.uid)
+            .set({'mobile': _mobile}).then((value) => {
+                  Fluttertoast.showToast(
+                      msg: "Details updated successfully",
+                      backgroundColor: Colors.grey,
+                      fontSize: 18)
+                });
+      } catch (onError) {
+        Fluttertoast.showToast(
+            msg: "ERROR: Unable to update user details",
+            backgroundColor: Colors.grey,
+            fontSize: 18);
+      }
+    }
+  }
+
+  uploadProfilePicture(File file) async {
+    var storageRef = storage.ref().child('user/profile/${user.uid}');
+    var uploadTask = storageRef.putFile(file);
+    await uploadTask.whenComplete(() async {
+      try {
+        downloadUrl = await storageRef.getDownloadURL();
+        Fluttertoast.showToast(
+            msg: "Profile picture updated successfully",
+            backgroundColor: Colors.grey,
+            fontSize: 18);
+      } catch (onError) {
+        Fluttertoast.showToast(
+            msg: "ERROR: Unable to update profile picture",
+            backgroundColor: Colors.grey,
+            fontSize: 18);
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.blue.shade100,
+      backgroundColor: Colors.lightBlue[50],
+      appBar: AppBar(
+        title: Text('My Profile'),
+        centerTitle: true,
+        backgroundColor: Colors.blue.shade700,
+        foregroundColor: Colors.white,
+        backwardsCompatibility: false,
+      ),
       body: SingleChildScrollView(
           child: FutureBuilder(
               future: getUser(),
@@ -115,102 +170,306 @@ class _ProfilePageState extends State<ProfilePage> {
                     return Text('none');
                   case ConnectionState.active:
                   case ConnectionState.waiting:
-                    return Text('active or waiting');
+                    return Center(
+                        child: CircularProgressIndicator()
+                    );
                   case ConnectionState.done:
                     return Container(
                       child: Column(
                         children: <Widget>[
-                          image != null
-                              ? ProfilePictureWidget(
-                                  image: image,
-                                  onClicked: (source) => pickImage(source),
-                                )
-                              : ProfilePictureWidget(
-                                  image: image,
-                                  onClicked: (source) => pickImage(source),
-                                ),
+                          SizedBox(height: 30),
+                          (user.providerData[0].providerId == 'google.com')
+                              ? CircleAvatar(
+                                  backgroundColor: Colors.white,
+                                  radius: 53.0,
+                                  child: CircleAvatar(
+                                      radius: 50.0,
+                                      backgroundImage: NetworkImage(urlImage)))
+                              : Avatar(
+                                  avatarUrl: downloadUrl,
+                                  onTap: () async {
+                                    var pickedFile = await ImagePicker()
+                                        .pickImage(source: ImageSource.gallery);
+                                    File image = File(pickedFile!.path);
+
+                                    await uploadProfilePicture(image);
+                                  }),
+                          SizedBox(height: 30),
                           Container(
                             child: Form(
-                              key: _formKey,
-                              child: Column(
-                                children: <Widget>[
-                                  Container(
-                                    child: TextFormField(
-                                        initialValue:
-                                            _first_name.split(" ").first,
+                                key: _formKey,
+                                child: Column(
+                                  children: <Widget>[
+                                    Align(
+                                      alignment: Alignment.centerLeft,
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 50.0, bottom: 8),
+                                        child: Text(
+                                          'First Name',
+                                          style: TextStyle(
+                                            fontFamily: 'Product Sans',
+                                            fontSize: 15,
+                                            color: Color(0xff8f9db5),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+
+                                    Container(
+                                      padding: const EdgeInsets.fromLTRB(
+                                          40, 0, 40, 15),
+                                      child: TextFormField(
+                                        initialValue: _first_name.split(' ')[0],
+                                        enabled: false,
                                         validator: (input) {
                                           if (input != null && input.isEmpty)
                                             return 'First Name cannot be empty';
                                         },
-                                        decoration: InputDecoration(
-                                            labelText: 'First Name',
-                                            prefixIcon: Icon(Icons.person)),
                                         onSaved: (input) =>
-                                            _first_name = input.toString()),
-                                  ),
-                                  Container(
-                                    child: TextFormField(
-                                        initialValue:
-                                            _first_name.split(" ").last,
+                                            _first_name = input.toString(),
+                                        style: TextStyle(
+                                            fontSize: 19,
+                                            color: Color(0xff0962ff),
+                                            fontWeight: FontWeight.bold),
+                                        decoration: InputDecoration(
+                                          hintText: 'John',
+                                          hintStyle: TextStyle(
+                                              fontSize: 18,
+                                              color: Colors.grey[350],
+                                              fontWeight: FontWeight.w600),
+                                          contentPadding: EdgeInsets.symmetric(
+                                              vertical: 20, horizontal: 25),
+                                          focusColor: Color(0xff0962ff),
+                                          focusedBorder: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(20),
+                                            borderSide: BorderSide(
+                                                color: Color(0xff0962ff)),
+                                          ),
+                                          enabledBorder: OutlineInputBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(20),
+                                              borderSide: BorderSide(
+                                                color: (Colors.grey[350])!,
+                                              )),
+                                        ),
+                                      ),
+                                    ),
+                                    //
+                                    SizedBox(
+                                      height: 5,
+                                    ),
+
+                                    Align(
+                                      alignment: Alignment.centerLeft,
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 50.0, bottom: 8),
+                                        child: Text(
+                                          'Last Name',
+                                          style: TextStyle(
+                                            fontFamily: 'Product Sans',
+                                            fontSize: 15,
+                                            color: Color(0xff8f9db5),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+
+                                    Container(
+                                      padding: const EdgeInsets.fromLTRB(
+                                          40, 0, 40, 15),
+                                      child: TextFormField(
+                                        initialValue: _first_name.split(' ')[1],
+                                        enabled: false,
                                         validator: (input) {
                                           if (input != null && input.isEmpty)
                                             return 'Last Name cannot be empty';
                                         },
-                                        decoration: InputDecoration(
-                                            labelText: 'Last Name',
-                                            prefixIcon: Icon(Icons.person)),
                                         onSaved: (input) =>
-                                            _last_name = input.toString()),
-                                  ),
-                                  Container(
-                                    child: TextFormField(
+                                            _last_name = input.toString(),
+                                        style: TextStyle(
+                                            fontSize: 19,
+                                            color: Color(0xff0962ff),
+                                            fontWeight: FontWeight.bold),
+                                        decoration: InputDecoration(
+                                          hintText: 'Doe',
+                                          hintStyle: TextStyle(
+                                              fontSize: 18,
+                                              color: Colors.grey[350],
+                                              fontWeight: FontWeight.w600),
+                                          contentPadding: EdgeInsets.symmetric(
+                                              vertical: 20, horizontal: 25),
+                                          focusColor: Color(0xff0962ff),
+                                          focusedBorder: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(20),
+                                            borderSide: BorderSide(
+                                                color: Color(0xff0962ff)),
+                                          ),
+                                          enabledBorder: OutlineInputBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(20),
+                                              borderSide: BorderSide(
+                                                color: (Colors.grey[350])!,
+                                              )),
+                                        ),
+                                      ),
+                                    ),
+
+                                    SizedBox(
+                                      height: 5,
+                                    ),
+                                    //
+                                    Align(
+                                      alignment: Alignment.centerLeft,
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 50.0, bottom: 8),
+                                        child: Text(
+                                          'Email',
+                                          style: TextStyle(
+                                            fontFamily: 'Product Sans',
+                                            fontSize: 15,
+                                            color: Color(0xff8f9db5),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+
+                                    Container(
+                                      padding: const EdgeInsets.fromLTRB(
+                                          40, 0, 40, 15),
+                                      child: TextFormField(
                                         initialValue: _email,
+                                        enabled: false,
                                         validator: (input) {
                                           if (input != null && input.isEmpty)
                                             return 'Email cannot be empty';
                                         },
-                                        decoration: InputDecoration(
-                                            labelText: 'Email',
-                                            prefixIcon: Icon(Icons.email)),
                                         onSaved: (input) =>
-                                            _email = input.toString()),
-                                  ),
-                                  Container(
-                                    child: TextFormField(
+                                            _email = input.toString(),
+                                        style: TextStyle(
+                                            fontSize: 19,
+                                            color: Color(0xff0962ff),
+                                            fontWeight: FontWeight.bold),
+                                        decoration: InputDecoration(
+                                          hintText: 'johndoe@gmail.com',
+                                          hintStyle: TextStyle(
+                                              fontSize: 18,
+                                              color: Colors.grey[350],
+                                              fontWeight: FontWeight.w600),
+                                          contentPadding: EdgeInsets.symmetric(
+                                              vertical: 20, horizontal: 25),
+                                          focusColor: Color(0xff0962ff),
+                                          focusedBorder: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(20),
+                                            borderSide: BorderSide(
+                                                color: Color(0xff0962ff)),
+                                          ),
+                                          enabledBorder: OutlineInputBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(20),
+                                              borderSide: BorderSide(
+                                                color: (Colors.grey[350])!,
+                                              )),
+                                        ),
+                                      ),
+                                    ),
+
+                                    SizedBox(
+                                      height: 5,
+                                    ),
+                                    //
+                                    Align(
+                                      alignment: Alignment.centerLeft,
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 50.0, bottom: 8),
+                                        child: Text(
+                                          'Mobile',
+                                          style: TextStyle(
+                                            fontFamily: 'Product Sans',
+                                            fontSize: 15,
+                                            color: Color(0xff8f9db5),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+
+                                    Container(
+                                      padding: const EdgeInsets.fromLTRB(
+                                          40, 0, 40, 15),
+                                      child: TextFormField(
                                         initialValue: _mobile,
+                                        keyboardType: TextInputType.number,
                                         validator: (input) {
                                           if (input != null && input.isEmpty)
-                                            return 'Mobile Number cannot be empty';
+                                            return 'Mobile number cannot be empty';
                                         },
-                                        decoration: InputDecoration(
-                                            labelText: 'Mobile Number',
-                                            prefixIcon: Icon(Icons.phone)),
                                         onSaved: (input) =>
-                                            _mobile = input.toString()),
-                                  ),
-                                  SizedBox(height: 20),
-                                  ElevatedButton(
-                                    onPressed: signUp,
-                                    child: Text(
-                                      'UPDATE PROFILE',
-                                      style: TextStyle(
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.blue.shade900),
+                                            _mobile = input.toString(),
+                                        style: TextStyle(
+                                            fontSize: 19,
+                                            color: Color(0xff0962ff),
+                                            fontWeight: FontWeight.bold),
+                                        decoration: InputDecoration(
+                                          hintText: '0771234567',
+                                          hintStyle: TextStyle(
+                                              fontSize: 18,
+                                              color: Colors.grey[350],
+                                              fontWeight: FontWeight.w600),
+                                          contentPadding: EdgeInsets.symmetric(
+                                              vertical: 20, horizontal: 25),
+                                          focusColor: Color(0xff0962ff),
+                                          focusedBorder: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(20),
+                                            borderSide: BorderSide(
+                                                color: Color(0xff0962ff)),
+                                          ),
+                                          enabledBorder: OutlineInputBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(20),
+                                              borderSide: BorderSide(
+                                                color: (Colors.grey[350])!,
+                                              )),
+                                        ),
+                                      ),
                                     ),
-                                    style: ButtonStyle(
-                                        shape: MaterialStateProperty.all<
-                                                RoundedRectangleBorder>(
-                                            RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(18.0),
-                                                side: BorderSide(
-                                                    color: Colors
-                                                        .blue.shade900)))),
-                                  )
-                                ],
-                              ),
-                            ),
+
+                                    SizedBox(height: 20),
+
+                                    ElevatedButton(
+                                      onPressed: updateProfile,
+                                      child: Text(
+                                        'UPDATE PROFILE',
+                                        style: TextStyle(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.white),
+                                      ),
+                                      style: ButtonStyle(
+                                          shape: MaterialStateProperty.all<
+                                                  RoundedRectangleBorder>(
+                                              RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(100.0),
+                                          )),
+                                          backgroundColor:
+                                              MaterialStateProperty.all<Color>(
+                                                  Colors.blue.shade800),
+                                          padding: MaterialStateProperty.all<
+                                                  EdgeInsetsGeometry>(
+                                              EdgeInsets.fromLTRB(
+                                                  60, 15, 60, 15))),
+                                    ),
+
+                                    SizedBox(height: 30),
+                                  ],
+                                )),
                           )
                         ],
                       ),
