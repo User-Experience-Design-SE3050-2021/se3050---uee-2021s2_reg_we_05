@@ -64,167 +64,168 @@ class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Scaffold(
-        body: SingleChildScrollView(
-          physics: BouncingScrollPhysics(),
-          child: Stack(
+        child: Scaffold(
+      body: SingleChildScrollView(
+        padding: EdgeInsets.fromLTRB(0, 30, 0, 0),
+        physics: BouncingScrollPhysics(),
+        child: Stack(children: [
+          Positioned(
+              top: 20,
+              right: 30,
+              child: Container(
+                height: 110,
+                child: Image(
+                  image: AssetImage("images/police_logo.png"),
+                  fit: BoxFit.contain,
+                ),
+              )),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Positioned(
-                top: 20,
-                right: 30,
-                child: Container(
-                 height: 100,
-                 child: Image(
-                   image: AssetImage("images/police_logo.png"),
-                   fit: BoxFit.contain,
-                 ),
-               )),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 40.0, top: 40),
-                      child: Text(
-                        'Login',
-                        style: TextStyle(
-                          fontFamily: 'Cardo',
-                          fontSize: 35,
-                          color: Color(0xff0C2551),
-                          fontWeight: FontWeight.w900,
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 40.0, top: 40),
+                  child: Text(
+                    'Login',
+                    style: TextStyle(
+                      fontFamily: 'Cardo',
+                      fontSize: 38,
+                      color: Color(0xff0C2551),
+                      fontWeight: FontWeight.w900,
+                    ),
+                  ),
+                ),
+              ),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 40, top: 5),
+                  child: Text(
+                    'Login to continue',
+                    style: TextStyle(
+                      fontFamily: 'Nunito Sans',
+                      fontSize: 17,
+                      color: Colors.grey,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                ),
+              ),
+              //
+              SizedBox(
+                height: 70,
+              ),
+
+              Form(
+                key: _formKey,
+                child: Column(
+                  children: <Widget>[
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 50.0, bottom: 8),
+                        child: Text(
+                          'Email',
+                          style: TextStyle(
+                            fontFamily: 'Product Sans',
+                            fontSize: 15,
+                            color: Color(0xff8f9db5),
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 40, top: 5),
-                      child: Text(
-                        'Login to continue',
+
+                    Container(
+                      padding: const EdgeInsets.fromLTRB(40, 0, 40, 15),
+                      child: TextFormField(
+                        keyboardType: TextInputType.emailAddress,
+                        validator: (input) {
+                          if (input != null && input.isEmpty)
+                            return 'Email cannot be empty';
+                        },
+                        onSaved: (input) => _email = input.toString(),
                         style: TextStyle(
-                          fontFamily: 'Nunito Sans',
-                          fontSize: 15,
-                          color: Colors.grey,
-                          fontWeight: FontWeight.w700,
+                            fontSize: 19,
+                            color: Color(0xff0962ff),
+                            fontWeight: FontWeight.bold),
+                        decoration: InputDecoration(
+                          hintText: 'johndoe@gmail.com',
+                          hintStyle: TextStyle(
+                              fontSize: 18,
+                              color: Colors.grey[350],
+                              fontWeight: FontWeight.w600),
+                          contentPadding: EdgeInsets.symmetric(
+                              vertical: 20, horizontal: 25),
+                          focusColor: Color(0xff0962ff),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(20),
+                            borderSide: BorderSide(color: Color(0xff0962ff)),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(20),
+                              borderSide: BorderSide(
+                                color: (Colors.grey[350])!,
+                              )),
                         ),
                       ),
                     ),
-                  ),
-                  //
-                  SizedBox(
-                    height: 30,
-                  ),
-
-                  Form(
-                    key: _formKey,
-                    child: Column(
-                      children: <Widget>[
-                        Align(
-                          alignment: Alignment.centerLeft,
-                          child: Padding(
-                            padding: const EdgeInsets.only(left: 50.0, bottom: 8),
-                            child: Text(
-                              'Email',
-                              style: TextStyle(
-                                fontFamily: 'Product Sans',
-                                fontSize: 15,
-                                color: Color(0xff8f9db5),
-                              ),
-                            ),
+                    //
+                    SizedBox(
+                      height: 5,
+                    ),
+                    //
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 50.0, bottom: 8),
+                        child: Text(
+                          'Password',
+                          style: TextStyle(
+                            fontFamily: 'Product Sans',
+                            fontSize: 15,
+                            color: Color(0xff8f9db5),
                           ),
                         ),
+                      ),
+                    ),
 
-                        Container(
-                          padding: const EdgeInsets.fromLTRB(40, 0, 40, 15),
-                          child: TextFormField(
-                              validator: (input) {
-                                if (input != null && input.isEmpty)
-                                  return 'Email cannot be empty';
-                              },
-                              onSaved: (input) => _email = input.toString(),
-                              style: TextStyle(
-                                  fontSize: 19,
-                                  color: Color(0xff0962ff),
-                                  fontWeight: FontWeight.bold),
-                              decoration: InputDecoration(
-                                hintText: 'johndoe@gmail.com',
-                                hintStyle: TextStyle(
-                                    fontSize: 18,
-                                    color: Colors.grey[350],
-                                    fontWeight: FontWeight.w600),
-                                contentPadding:
-                                    EdgeInsets.symmetric(vertical: 20, horizontal: 25),
-                                focusColor: Color(0xff0962ff),
-                                focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(20),
-                                  borderSide: BorderSide(color: Color(0xff0962ff)),
-                                ),
-                                enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(20),
-                                  borderSide: BorderSide(
-                                    color: (Colors.grey[350])!,
-                                  )),
-                                ),
-                              ),
-                        ),
-                        //
-                        SizedBox(
-                          height: 5,
-                        ),
-                        //
-                        Align(
-                          alignment: Alignment.centerLeft,
-                          child: Padding(
-                            padding: const EdgeInsets.only(left: 50.0, bottom: 8),
-                            child: Text(
-                              'Password',
-                              style: TextStyle(
-                                fontFamily: 'Product Sans',
-                                fontSize: 15,
-                                color: Color(0xff8f9db5),
-                              ),
-                            ),
+                    Container(
+                      padding: const EdgeInsets.fromLTRB(40, 0, 40, 7),
+                      child: TextFormField(
+                        obscureText: true,
+                        validator: (input) {
+                          if (input != null && input.isEmpty)
+                            return 'Password cannot be empty';
+                        },
+                        onSaved: (input) => _password = input.toString(),
+                        style: TextStyle(
+                            fontSize: 19,
+                            color: Color(0xff0962ff),
+                            fontWeight: FontWeight.bold),
+                        decoration: InputDecoration(
+                          hintText: '6+ Characters',
+                          hintStyle: TextStyle(
+                              fontSize: 18,
+                              color: Colors.grey[350],
+                              fontWeight: FontWeight.w600),
+                          contentPadding: EdgeInsets.symmetric(
+                              vertical: 20, horizontal: 25),
+                          focusColor: Color(0xff0962ff),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(20),
+                            borderSide: BorderSide(color: Color(0xff0962ff)),
                           ),
+                          enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(20),
+                              borderSide: BorderSide(
+                                color: (Colors.grey[350])!,
+                              )),
                         ),
+                      ),
+                    ),
 
-                        Container(
-                          padding: const EdgeInsets.fromLTRB(40, 0, 40, 7),
-                          child: TextFormField(
-                              obscureText: true,
-                              validator: (input) {
-                                if (input != null && input.isEmpty)
-                                  return 'Password cannot be empty';
-                              },
-                              onSaved: (input) => _password = input.toString(),
-                              style: TextStyle(
-                                  fontSize: 19,
-                                  color: Color(0xff0962ff),
-                                  fontWeight: FontWeight.bold),
-                              decoration: InputDecoration(
-                                hintText: '6+ Characters',
-                                hintStyle: TextStyle(
-                                    fontSize: 18,
-                                    color: Colors.grey[350],
-                                    fontWeight: FontWeight.w600),
-                                contentPadding:
-                                    EdgeInsets.symmetric(vertical: 20, horizontal: 25),
-                                focusColor: Color(0xff0962ff),
-                                focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(20),
-                                  borderSide: BorderSide(color: Color(0xff0962ff)),
-                                ),
-                                enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(20),
-                                  borderSide: BorderSide(
-                                    color: (Colors.grey[350])!,
-                                  )),
-                                ),
-                              ),
-                        ),
-
-                  Align(
+                    Align(
                       alignment: Alignment(0.65, 0.0),
                       child: GestureDetector(
                         child: Text(
@@ -240,56 +241,61 @@ class _LoginState extends State<Login> {
                       ),
                     ),
 
-                  SizedBox(height: 25),
-                  
-                  ElevatedButton(
-                    onPressed: login,
-                    child: Text(
-                      'LOGIN',
-                      style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white),
-                    ),
-                    style: ButtonStyle(
-                        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                            RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(100.0),
-                                )),
-                        backgroundColor: MaterialStateProperty.all<Color>(Colors.blue.shade800),
-                        padding: MaterialStateProperty.all<EdgeInsetsGeometry>(EdgeInsets.fromLTRB(60, 15, 60, 15))),
-                  ),
-                  SizedBox(height: 15),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Text(
-                        "Don't have an account? ",
+                    SizedBox(height: 25),
+
+                    ElevatedButton(
+                      onPressed: login,
+                      child: Text(
+                        'LOGIN',
                         style: TextStyle(
-                            fontFamily: 'Product Sans',
-                            fontSize: 15,
+                            fontSize: 20,
                             fontWeight: FontWeight.bold,
-                            color: Colors.grey,
-                        ),
+                            color: Colors.white),
                       ),
-                      GestureDetector(
-                        child: Text(
-                          'Sign Up',
+                      style: ButtonStyle(
+                          shape:
+                              MaterialStateProperty.all<RoundedRectangleBorder>(
+                                  RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(100.0),
+                          )),
+                          backgroundColor: MaterialStateProperty.all<Color>(
+                              Colors.blue.shade800),
+                          padding:
+                              MaterialStateProperty.all<EdgeInsetsGeometry>(
+                                  EdgeInsets.fromLTRB(60, 15, 60, 15))),
+                    ),
+                    SizedBox(height: 15),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Text(
+                          "Don't have an account? ",
                           style: TextStyle(
                             fontFamily: 'Product Sans',
                             fontSize: 15,
                             fontWeight: FontWeight.bold,
-                            color: Colors.blue[300],
+                            color: Colors.grey,
                           ),
                         ),
-                        onTap: navigateToSignUp,
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 30)
-                ],
-              ),
-            )],
+                        GestureDetector(
+                          child: Text(
+                            'Sign Up',
+                            style: TextStyle(
+                              fontFamily: 'Product Sans',
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.blue[300],
+                            ),
+                          ),
+                          onTap: navigateToSignUp,
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 30)
+                  ],
+                ),
+              )
+            ],
           ),
         ]),
       ),

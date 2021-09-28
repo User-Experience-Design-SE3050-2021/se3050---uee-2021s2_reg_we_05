@@ -283,6 +283,7 @@ class _SignUpState extends State<SignUp> {
                         Container(
                           padding: const EdgeInsets.fromLTRB(40, 0, 40, 15),
                           child: TextFormField(
+                            keyboardType: TextInputType.emailAddress,
                               validator: (input) {
                                 if (input != null && input.isEmpty)
                                   return 'Email cannot be empty';

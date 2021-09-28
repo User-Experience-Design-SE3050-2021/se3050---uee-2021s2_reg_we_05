@@ -62,7 +62,8 @@ class _ViolationDetailsPageState extends State<ViolationDetailsPage> {
               'status': 'Submitted',
               'description': _description,
               'comment': _comment,
-              'location': _location
+              'location': _location,
+              'dateTime': new DateTime.now()
             }).then((value) => {
                       Fluttertoast.showToast(
                           msg: "Violation reported successfully",
@@ -122,135 +123,132 @@ class _ViolationDetailsPageState extends State<ViolationDetailsPage> {
                           ),
                         ),
                       ),
-                      
                       Container(
                         padding: const EdgeInsets.fromLTRB(40, 0, 40, 15),
                         child: TextFormField(
-                            validator: (input) {
-                              if (input != null && input.isEmpty)
-                                return 'Description cannot be empty';
-                            },
-                            onSaved: (input) => _description = input.toString(),
-                            style: TextStyle(
-                                fontSize: 19,
-                                color: Color(0xff0962ff),
-                                fontWeight: FontWeight.bold),
-                            decoration: InputDecoration(
-                              hintText: 'Parking on the wrong side',
-                              hintStyle: TextStyle(
-                                  fontSize: 18,
-                                  color: Colors.grey[350],
-                                  fontWeight: FontWeight.w600),
-                              contentPadding:
-                                  EdgeInsets.symmetric(vertical: 20, horizontal: 25),
-                              focusColor: Color(0xff0962ff),
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(20),
-                                borderSide: BorderSide(color: Color(0xff0962ff)),
-                              ),
-                              enabledBorder: OutlineInputBorder(
+                          validator: (input) {
+                            if (input != null && input.isEmpty)
+                              return 'Description cannot be empty';
+                          },
+                          onSaved: (input) => _description = input.toString(),
+                          style: TextStyle(
+                              fontSize: 19,
+                              color: Color(0xff0962ff),
+                              fontWeight: FontWeight.bold),
+                          decoration: InputDecoration(
+                            hintText: 'Parking on the wrong side',
+                            hintStyle: TextStyle(
+                                fontSize: 18,
+                                color: Colors.grey[350],
+                                fontWeight: FontWeight.w600),
+                            contentPadding: EdgeInsets.symmetric(
+                                vertical: 20, horizontal: 25),
+                            focusColor: Color(0xff0962ff),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(20),
+                              borderSide: BorderSide(color: Color(0xff0962ff)),
+                            ),
+                            enabledBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(20),
                                 borderSide: BorderSide(
                                   color: (Colors.grey[350])!,
                                 )),
-                              ),
-                            ),
+                          ),
+                        ),
                       ),
                       SizedBox(height: 10),
                       Align(
-                          alignment: Alignment.centerLeft,
-                          child: Padding(
-                            padding: const EdgeInsets.only(left: 50.0, bottom: 8),
-                            child: Text(
-                              'Comment/Suggestion',
-                              style: TextStyle(
-                                fontFamily: 'Product Sans',
-                                fontSize: 15,
-                                color: Color(0xff8f9db5),
-                              ),
+                        alignment: Alignment.centerLeft,
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 50.0, bottom: 8),
+                          child: Text(
+                            'Comment/Suggestion',
+                            style: TextStyle(
+                              fontFamily: 'Product Sans',
+                              fontSize: 15,
+                              color: Color(0xff8f9db5),
                             ),
                           ),
                         ),
-                        
-                        Container(
-                          padding: const EdgeInsets.fromLTRB(40, 0, 40, 15),
-                          child: TextFormField(
-                              onSaved: (input) => _comment = input.toString(),
-                              style: TextStyle(
-                                  fontSize: 19,
-                                  color: Color(0xff0962ff),
-                                  fontWeight: FontWeight.bold),
-                              decoration: InputDecoration(
-                                hintText: 'Had parked blocking an entrance',
-                                hintStyle: TextStyle(
-                                    fontSize: 18,
-                                    color: Colors.grey[350],
-                                    fontWeight: FontWeight.w600),
-                                contentPadding:
-                                    EdgeInsets.symmetric(vertical: 20, horizontal: 25),
-                                focusColor: Color(0xff0962ff),
-                                focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(20),
-                                  borderSide: BorderSide(color: Color(0xff0962ff)),
-                                ),
-                                enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(20),
-                                  borderSide: BorderSide(
-                                    color: (Colors.grey[350])!,
-                                  )),
-                                ),
-                              ),
+                      ),
+                      Container(
+                        padding: const EdgeInsets.fromLTRB(40, 0, 40, 15),
+                        child: TextFormField(
+                          onSaved: (input) => _comment = input.toString(),
+                          style: TextStyle(
+                              fontSize: 19,
+                              color: Color(0xff0962ff),
+                              fontWeight: FontWeight.bold),
+                          decoration: InputDecoration(
+                            hintText: 'Had parked blocking an entrance',
+                            hintStyle: TextStyle(
+                                fontSize: 18,
+                                color: Colors.grey[350],
+                                fontWeight: FontWeight.w600),
+                            contentPadding: EdgeInsets.symmetric(
+                                vertical: 20, horizontal: 25),
+                            focusColor: Color(0xff0962ff),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(20),
+                              borderSide: BorderSide(color: Color(0xff0962ff)),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(20),
+                                borderSide: BorderSide(
+                                  color: (Colors.grey[350])!,
+                                )),
+                          ),
                         ),
-                        SizedBox(height: 10),
+                      ),
+                      SizedBox(height: 10),
                       Align(
-                          alignment: Alignment.centerLeft,
-                          child: Padding(
-                            padding: const EdgeInsets.only(left: 50.0, bottom: 8),
-                            child: Text(
-                              'Location',
-                              style: TextStyle(
-                                fontFamily: 'Product Sans',
-                                fontSize: 15,
-                                color: Color(0xff8f9db5),
-                              ),
+                        alignment: Alignment.centerLeft,
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 50.0, bottom: 8),
+                          child: Text(
+                            'Location',
+                            style: TextStyle(
+                              fontFamily: 'Product Sans',
+                              fontSize: 15,
+                              color: Color(0xff8f9db5),
                             ),
                           ),
                         ),
-                        
-                        Container(
-                          padding: const EdgeInsets.fromLTRB(40, 0, 40, 15),
-                          child: TextFormField(
-                              keyboardType: TextInputType.number,
-                              validator: (input) {
-                                if (input != null && input.isEmpty)
-                                  return 'Location cannot be empty';
-                              },
-                              onSaved: (input) => _location = input.toString(),
-                              style: TextStyle(
-                                  fontSize: 19,
-                                  color: Color(0xff0962ff),
-                                  fontWeight: FontWeight.bold),
-                              decoration: InputDecoration(
-                                hintText: '42.048, 2.483',
-                                hintStyle: TextStyle(
-                                    fontSize: 18,
-                                    color: Colors.grey[350],
-                                    fontWeight: FontWeight.w600),
-                                contentPadding:
-                                    EdgeInsets.symmetric(vertical: 20, horizontal: 25),
-                                focusColor: Color(0xff0962ff),
-                                focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(20),
-                                  borderSide: BorderSide(color: Color(0xff0962ff)),
-                                ),
-                                enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(20),
-                                  borderSide: BorderSide(
-                                    color: (Colors.grey[350])!,
-                                  )),
-                                ),
-                              ),
+                      ),
+                      Container(
+                        padding: const EdgeInsets.fromLTRB(40, 0, 40, 15),
+                        child: TextFormField(
+                          keyboardType: TextInputType.number,
+                          validator: (input) {
+                            if (input != null && input.isEmpty)
+                              return 'Location cannot be empty';
+                          },
+                          onSaved: (input) => _location = input.toString(),
+                          style: TextStyle(
+                              fontSize: 19,
+                              color: Color(0xff0962ff),
+                              fontWeight: FontWeight.bold),
+                          decoration: InputDecoration(
+                            hintText: '42.048, 2.483',
+                            hintStyle: TextStyle(
+                                fontSize: 18,
+                                color: Colors.grey[350],
+                                fontWeight: FontWeight.w600),
+                            contentPadding: EdgeInsets.symmetric(
+                                vertical: 20, horizontal: 25),
+                            focusColor: Color(0xff0962ff),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(20),
+                              borderSide: BorderSide(color: Color(0xff0962ff)),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(20),
+                                borderSide: BorderSide(
+                                  color: (Colors.grey[350])!,
+                                )),
+                          ),
                         ),
+                      ),
                       SizedBox(height: 20),
                       Row(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -265,12 +263,17 @@ class _ViolationDetailsPageState extends State<ViolationDetailsPage> {
                                     color: Colors.white),
                               ),
                               style: ButtonStyle(
-                                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                                  shape: MaterialStateProperty.all<
+                                          RoundedRectangleBorder>(
                                       RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(100.0),
-                                          )),
-                                  backgroundColor: MaterialStateProperty.all<Color>(Colors.blue.shade800),
-                                  padding: MaterialStateProperty.all<EdgeInsetsGeometry>(EdgeInsets.fromLTRB(50, 15, 50, 15))),
+                                    borderRadius: BorderRadius.circular(100.0),
+                                  )),
+                                  backgroundColor:
+                                      MaterialStateProperty.all<Color>(
+                                          Colors.blue.shade800),
+                                  padding: MaterialStateProperty.all<
+                                          EdgeInsetsGeometry>(
+                                      EdgeInsets.fromLTRB(50, 15, 50, 15))),
                             ),
                             SizedBox(width: 20),
                             ElevatedButton(
@@ -283,15 +286,20 @@ class _ViolationDetailsPageState extends State<ViolationDetailsPage> {
                                     color: Colors.white),
                               ),
                               style: ButtonStyle(
-                                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                                  shape: MaterialStateProperty.all<
+                                          RoundedRectangleBorder>(
                                       RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(100.0),
-                                          )),
-                                  backgroundColor: MaterialStateProperty.all<Color>(Colors.blue.shade800),
-                                  padding: MaterialStateProperty.all<EdgeInsetsGeometry>(EdgeInsets.fromLTRB(40, 15, 40, 15))),
+                                    borderRadius: BorderRadius.circular(100.0),
+                                  )),
+                                  backgroundColor:
+                                      MaterialStateProperty.all<Color>(
+                                          Colors.blue.shade800),
+                                  padding: MaterialStateProperty.all<
+                                          EdgeInsetsGeometry>(
+                                      EdgeInsets.fromLTRB(40, 15, 40, 15))),
                             ),
                           ]),
-                          SizedBox(height: 30)
+                      SizedBox(height: 30)
                     ],
                   ),
                 ),

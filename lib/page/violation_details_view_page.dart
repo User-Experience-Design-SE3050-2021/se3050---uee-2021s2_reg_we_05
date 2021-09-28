@@ -66,7 +66,8 @@ class _ViolationDetailsViewPageState extends State<ViolationDetailsViewPage> {
           'status': 'Submitted',
           'description': _description,
           'comment': _comment,
-          'location': _location
+          'location': _location,
+          'dateTime': new DateTime.now()
         }).then((value) => {
             Fluttertoast.showToast(
                 msg: "Details updated successfully",

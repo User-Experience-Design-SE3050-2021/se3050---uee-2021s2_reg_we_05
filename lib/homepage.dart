@@ -74,6 +74,8 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    double height = MediaQuery. of(context). size. height;
+
     return Scaffold(
       backgroundColor: Colors.blue.shade100,
       drawer: NavigationDrawerWidget(),
@@ -81,9 +83,9 @@ class _HomePageState extends State<HomePage> {
         foregroundColor: Colors.white,
         backwardsCompatibility: false,
         backgroundColor: Colors.blue.shade700,
-        title: _firstName == null 
-        ? CircularProgressIndicator()
-        : Text('Hi ' + _firstName!.split(' ').first + '!'),
+        title: _firstName == null
+            ? CircularProgressIndicator()
+            : Text('Hi ' + _firstName!.split(' ').first + '!'),
       ),
       body: Container(
         child: !isLoggedIn
@@ -93,14 +95,49 @@ class _HomePageState extends State<HomePage> {
                   child: CircularProgressIndicator(),
                 ),
               )
-            : Column(
-                children: <Widget>[
-                  buildButton(
-                      title: 'Open Camera',
-                      icon: Icons.camera_alt,
-                      onClicked: () => pickImage(ImageSource.camera)),
-                ],
+            : Center(
+              child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                  'Need to report a violation?',
+                  style: TextStyle(
+                    fontFamily: 'Cardo',
+                    fontSize: 25,
+                    color: Color(0xff0C2551),
+                    fontWeight: FontWeight.w900,
+                  ),
+                ),
+                SizedBox(height: 25),
+                MaterialButton(
+                  elevation: 10,
+                onPressed: () => pickImage(ImageSource.camera),
+                color: Colors.blue,
+                textColor: Colors.white,
+                child: Icon(
+                  Icons.camera_alt,
+                  size: 24,
+                ),
+                padding: EdgeInsets.all(45),
+                shape: CircleBorder(),
               ),
+              SizedBox(height: 25),
+              SizedBox(
+                  width:300,
+                  child: Text(
+                  'Click the button above to open the camera and submit a picture of the violation',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontFamily: 'Nunito Sans',
+                    fontSize: 15,
+                    color: Colors.grey,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+                ),
+                ],
+              )
+            )
       ),
     );
   }

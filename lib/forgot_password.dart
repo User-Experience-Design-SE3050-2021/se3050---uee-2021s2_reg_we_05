@@ -72,6 +72,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
     return SafeArea(
         child: Scaffold(
       body: SingleChildScrollView(
+        padding: EdgeInsets.fromLTRB(0, 30, 0, 0),
         physics: BouncingScrollPhysics(),
         child: Stack(children: [
           // Positioned(
@@ -90,24 +91,27 @@ class _ForgotPasswordState extends State<ForgotPassword> {
               Align(
                 alignment: Alignment.centerLeft,
                 child: Padding(
-                  padding: const EdgeInsets.only(left: 40.0, top: 40),
+                  padding: const EdgeInsets.only(left: 40, top: 110),
                   child: Text(
-                    'Reset Password',
+                    'Forgot your password?',
+                    textAlign: TextAlign.center,
                     style: TextStyle(
                       fontFamily: 'Cardo',
-                      fontSize: 35,
+                      fontSize: 30,
                       color: Color(0xff0C2551),
                       fontWeight: FontWeight.w900,
                     ),
                   ),
                 ),
               ),
+              SizedBox(height: 10),
               Align(
                 alignment: Alignment.centerLeft,
                 child: Padding(
-                  padding: const EdgeInsets.only(left: 40, top: 5),
+                  padding: const EdgeInsets.only(left: 40, top: 10, right: 50),
                   child: Text(
-                    'Reset password using email',
+                    'Enter your registered email below and we will email you the new password',
+                    textAlign: TextAlign.center,
                     style: TextStyle(
                       fontFamily: 'Nunito Sans',
                       fontSize: 15,
@@ -119,7 +123,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
               ),
               //
               SizedBox(
-                height: 30,
+                height: 50,
               ),
 
               Form(
@@ -143,6 +147,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                     Container(
                       padding: const EdgeInsets.fromLTRB(40, 0, 40, 15),
                       child: TextFormField(
+                        keyboardType: TextInputType.emailAddress,
                         validator: (input) {
                           if (input != null && input.isEmpty)
                             return 'Email cannot be empty';
