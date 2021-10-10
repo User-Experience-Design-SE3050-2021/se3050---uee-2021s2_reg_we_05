@@ -41,7 +41,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
             fontSize: 18);
       }
 
-      //SUCCESSFUL/UNSUCCESSFUL TOAST MESSAGES
+      //SUCCESSFUL AND UNSUCCESSFUL TOAST MESSAGES
       user.reauthenticateWithCredential(cred).then((value) {
         user.updatePassword(_reconfirm_pw).then((value) {
           Fluttertoast.showToast(
