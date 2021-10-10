@@ -3,7 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-//PRIVACY POLICY PAGE (SINHALA)
+//PRIVACY POLICY PAGE - (SINHALA)
 class PrivacyPolicySinhalaPage extends StatefulWidget {
   const PrivacyPolicySinhalaPage({Key? key}) : super(key: key);
 
