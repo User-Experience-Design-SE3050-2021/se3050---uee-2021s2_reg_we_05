@@ -3,7 +3,7 @@ import 'package:etraffic/page/privacy_policy_sin_page.dart';
 import 'package:etraffic/page/privacy_policy_tam_page.dart';
 import 'package:flutter/material.dart';
 
-//PRIVACY POLICY PAGE
+//PRIVACY POLICY MAIN PAGE
 class PrivacyPolicyPage extends StatelessWidget {
 
   @override

@@ -3,7 +3,7 @@ import 'package:etraffic/page/terms_and_conditions_sin_page.dart';
 import 'package:etraffic/page/terms_and_conditions_tam_page.dart';
 import 'package:flutter/material.dart';
 
-//TERMS AND CONDITIONS PAGE
+//TERMS AND CONDITIONS MAIN PAGE
 class TermsAndConditionsPage extends StatelessWidget {
 
   @override
