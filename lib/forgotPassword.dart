@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
-
+//forgot password page
 class ResetScreen extends StatefulWidget {
   @override
   _ResetScreenState createState() => _ResetScreenState();
@@ -13,6 +13,7 @@ class _ResetScreenState extends State<ResetScreen> {
   String _email = '';
   final auth = FirebaseAuth.instance;
 
+  //navigate to the login page
   navigateToLogin() async {
     Navigator.push(context, MaterialPageRoute(builder: (context) => Login()));
   }
@@ -162,6 +163,7 @@ class _ResetScreenState extends State<ResetScreen> {
                           padding:
                               MaterialStateProperty.all<EdgeInsetsGeometry>(
                                   EdgeInsets.fromLTRB(30, 15, 30, 15))),
+                //when clicked reset password,the reset email will send
                 onPressed: () {
                   auth.sendPasswordResetEmail(email: _email);
                   Navigator.of(context).pop();
