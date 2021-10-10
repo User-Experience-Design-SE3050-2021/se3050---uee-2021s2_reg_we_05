@@ -8,7 +8,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 
-//FEEDBACK PAGE
+//USER FEEDBACK PAGE
 class RatingPage extends StatefulWidget {
   @override
   _RatingPage createState() => _RatingPage();
@@ -86,7 +86,7 @@ class _RatingPage extends State<RatingPage> {
                       : SizedBox.shrink()),
               SizedBox(height:10),
 
-              //TEXT AREA TO ADD THE COMMENTS
+              //TEXT AREA TO ADD USER COMMENTS
               Form(
                 key: _formKey,
                 child: Column(
