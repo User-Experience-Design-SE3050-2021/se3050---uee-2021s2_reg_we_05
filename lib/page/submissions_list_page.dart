@@ -78,178 +78,120 @@ class _SubmissionsListPageState extends State<SubmissionsListPage> {
                 case ConnectionState.waiting:
                   return Center(child: CircularProgressIndicator());
                 case ConnectionState.done:
-                  return ListView.builder(
+                  return ListView.separated(
+                      separatorBuilder: (_, i) {
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 10),
+                          child: Divider(color: Colors.black),
+                        );
+                      },
+                      padding: EdgeInsets.only(top: 10, right: 10, left: 10),
                       itemCount: violationsList.length,
                       itemBuilder: (context, index) {
                         return GestureDetector(
-                          onTap: () {
-                            Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) =>
-                                    ViolationDetailsViewPage(
-                                        violationDataModel:
-                                            violationsList[index])));
-                          },
-                          child: Container(
-                              height: 150,
-                              child: Card(
-                                color: Colors.blue[400],
-                                elevation: 5,
-                                child: Row(
-                                  children: <Widget>[
-                                    Column(
-                                      children: [
-                                        Padding(
-                                          padding: EdgeInsets.fromLTRB(
-                                              10, 6, 5, 0),
-                                          child: Image.network(
-                                            violationsList[index].imageUrl,
-                                            fit: BoxFit.cover,
-                                            height: 130,
+                            onTap: () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) =>
+                                      ViolationDetailsViewPage(
+                                          violationDataModel:
+                                              violationsList[index])));
+                            },
+                            child: Container(
+                                height: 150,
+                                child: Container(
+                                  padding: EdgeInsets.all(10),
+                                  decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      boxShadow: [
+                                        BoxShadow(
+                                            color: Color(0xFFB3E5FC),
+                                            offset: Offset(5, 5),
+                                            spreadRadius: 1)
+                                      ],
+                                      borderRadius: BorderRadius.circular(12)),
+                                  child: Row(
+                                    children: <Widget>[
+                                      ClipRRect(
+                                        borderRadius: BorderRadius.circular(10),
+                                        child: Image.network(
+                                          violationsList[index].imageUrl,
+                                          fit: BoxFit.cover,
+                                          height: 130,
+                                        ),
+                                      ),
+                                      Expanded(
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 8.0),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Text(
+                                                violationsList[index]
+                                                    .description,
+                                                style: TextStyle(
+                                                    fontFamily: 'Nunito Sans',
+                                                    fontSize: 15,
+                                                    color: Colors.grey[600],
+                                                    fontWeight: FontWeight.w700,
+                                                    height: 2),
+                                              ),
+                                              Text(
+                                                violationsList[index].comment,
+                                                style: TextStyle(
+                                                    fontFamily: 'Nunito Sans',
+                                                    fontSize: 15,
+                                                    color: Colors.grey[500],
+                                                    fontWeight: FontWeight.w500,
+                                                    height: 1.5),
+                                              ),
+                                            ],
                                           ),
                                         ),
-                                      ],
-                                    ),
-                                    Column(
-                                      children: [
-                                        Padding(
-                                            padding: EdgeInsets.fromLTRB(
-                                                10, 25, 5, 0),
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  violationsList[index].description,
-                                                  style: TextStyle(
-                                                      fontFamily: 'Nunito Sans',
-                                                      fontSize: 15,
-                                                      color: Colors.white70,
-                                                      fontWeight: FontWeight.w700,
-                                                      height: 2
-                                                    ),
-                                                  ),
-                                                Text(
-                                                  violationsList[index].comment,
-                                                  style: TextStyle(
-                                                      fontFamily: 'Nunito Sans',
-                                                      fontSize: 15,
-                                                      color: Colors.white70,
-                                                      fontWeight: FontWeight.w700,
-                                                      height: 1.5
-                                                    ),
-                                                ),
-                                                Text(
-                                                  violationsList[index].status,
-                                                  style: TextStyle(
-                                                      fontFamily: 'Nunito Sans',
-                                                      fontSize: 15,
-                                                      fontWeight: FontWeight.w700,
-                                                      height: 1.5,
-                                                      shadows: <Shadow>[
-                                                        Shadow(
-                                                          offset: Offset(0.0, 0.0),
-                                                          blurRadius: 2.0,
-                                                          color: (violationsList[index].status == 'Submitted') ? (Colors.black)  : (Colors.lightBlue[50])!,
-                                                      )],
-                                                      color: (violationsList[index].status == 'Submitted') 
-                                                      ? Colors.lightGreen[300]
-                                                      : (violationsList[index].status == 'In review') 
-                                                      ? Colors.orange[900]
-                                                      : (violationsList[index].status == 'Rejected') 
-                                                      ? Colors.red[800]
-                                                      : Colors.green[800]
-                                                    ),
-                                                )
-                                              ],
-                                            )),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-
-                                // ListTile(
-                                //   title: Column(
-                                //     children: [
-                                //       Text(violationsList[index].description),
-                                //       Text(violationsList[index].comment),
-                                //       Text(violationsList[index].status)
-                                //     ],
-                                //   ),
-                                //   leading: Image.network(
-                                //               violationsList[index].imageUrl,
-                                //               fit: BoxFit.cover,
-                                //             ),
-                                //   onTap: () {
-                                //     Navigator.of(context).push(MaterialPageRoute(
-                                //         builder: (context) =>
-                                //             ViolationDetailsViewPage(
-                                //                 violationDataModel:
-                                //                     violationsList[index])));
-                                //   },
-                                // ),
-                              ))
-                              );
-
-                        // Container(
-                        //   height: 150,
-                        //     child: Card(
-                        //       color: Colors.blue[400],
-                        //       elevation: 5,
-                        //       child: Row(
-                        //         children: <Widget>[
-                        //           Column(
-                        //             children: [
-                        //               Padding(
-                        //                 padding: EdgeInsets.fromLTRB(10, 6, 5, 0),
-                        //                 child: Image.network(
-                        //                   violationsList[index].imageUrl,
-                        //                   fit: BoxFit.cover,
-                        //                   height: 130,
-                        //                 ),
-                        //               ),
-                        //             ],
-                        //           ),
-                        //           Column(
-                        //             children: [
-                        //               Padding(
-                        //                 padding: EdgeInsets.fromLTRB(10, 40, 5, 0),
-                        //                 child: Column(
-                        //                   crossAxisAlignment: CrossAxisAlignment.start,
-                        //                   children: [
-                        //                     Text(violationsList[index].description),
-                        //                     Text(violationsList[index].comment),
-                        //                     Text(violationsList[index].status)
-                        //                   ],
-                        //                 )
-                        //               ),
-                        //             ],
-                        //           ),
-                        //         ],
-                        //       ),
-
-                        //       // ListTile(
-                        //       //   title: Column(
-                        //       //     children: [
-                        //       //       Text(violationsList[index].description),
-                        //       //       Text(violationsList[index].comment),
-                        //       //       Text(violationsList[index].status)
-                        //       //     ],
-                        //       //   ),
-                        //       //   leading: Image.network(
-                        //       //               violationsList[index].imageUrl,
-                        //       //               fit: BoxFit.cover,
-                        //       //             ),
-                        //       //   onTap: () {
-                        //       //     Navigator.of(context).push(MaterialPageRoute(
-                        //       //         builder: (context) =>
-                        //       //             ViolationDetailsViewPage(
-                        //       //                 violationDataModel:
-                        //       //                     violationsList[index])));
-                        //       //   },
-                        //       // ),
-                        //     ));
+                                      ),
+                                      _buildChip(violationsList[index].status),
+                                    ],
+                                  ),
+                                )));
                       });
               }
             }));
+  }
+
+  Widget _buildChip(String status) {
+    var text = status;
+    var color = Colors.blueGrey;
+
+    switch (status) {
+      case "Rejected":
+        color = Colors.red;
+        break;
+      case "Submitted":
+        color = Colors.lightGreen;
+        break;
+      case "Approved":
+        color = Colors.green;
+        break;
+      case "In Review":
+        color = Colors.orange;
+        break;
+      default:
+        color = Colors.blueGrey;
+    }
+    return Container(
+      padding: EdgeInsets.all(8),
+      decoration:
+          BoxDecoration(color: color, borderRadius: BorderRadius.circular(10)),
+      child: Text(text,
+          style: TextStyle(
+              fontFamily: 'Nunito Sans',
+              fontSize: 14,
+              fontWeight: FontWeight.w700,
+              height: 1.5,
+              color: Colors.white)),
+    );
   }
 }
