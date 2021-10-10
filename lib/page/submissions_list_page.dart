@@ -166,11 +166,11 @@ class _SubmissionsListPageState extends State<SubmissionsListPage> {
     var color = Colors.blueGrey;
 
     switch (status) {
-      case "Rejected":
-        color = Colors.red;
-        break;
       case "Submitted":
         color = Colors.lightGreen;
+        break;
+      case "Rejected":
+        color = Colors.red;
         break;
       case "Approved":
         color = Colors.green;
