@@ -3,7 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-//PRIVACY POLICY PAGE (TAMIL)
+//PRIVACY POLICY PAGE - (TAMIL)
 class PrivacyPolicyTamilPage extends StatefulWidget {
   const PrivacyPolicyTamilPage({Key? key}) : super(key: key);
 
