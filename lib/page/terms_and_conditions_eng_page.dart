@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
+//TERMS AND CONDITIONS PAGE (ENGLISH)
 class TermsAndConditionsEnglishPage extends StatefulWidget {
   const TermsAndConditionsEnglishPage({Key? key}) : super(key: key);
 
@@ -11,6 +12,7 @@ class TermsAndConditionsEnglishPage extends StatefulWidget {
       _TermsAndConditionsEnglishPageState();
 }
 
+//FIREBASE CONNECTIVITY
 class _TermsAndConditionsEnglishPageState
     extends State<TermsAndConditionsEnglishPage> {
   final FirebaseAuth _auth = FirebaseAuth.instance;

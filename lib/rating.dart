@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+//RATING PAGE
 class Rating extends StatefulWidget {
   final int maximumRating;
   final Function(int) onRatingSelected;

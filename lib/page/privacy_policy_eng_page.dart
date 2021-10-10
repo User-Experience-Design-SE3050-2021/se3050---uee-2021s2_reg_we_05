@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
+//PRIVACY POLICY PAGE (ENGLISH)
 class PrivacyPolicyEnglishPage extends StatefulWidget {
   const PrivacyPolicyEnglishPage({Key? key}) : super(key: key);
 
@@ -11,6 +12,7 @@ class PrivacyPolicyEnglishPage extends StatefulWidget {
       _PrivacyPolicyEnglishPageState();
 }
 
+//FIREBASE CONNECTIVITY
 class _PrivacyPolicyEnglishPageState
     extends State<PrivacyPolicyEnglishPage> {
   final FirebaseAuth _auth = FirebaseAuth.instance;

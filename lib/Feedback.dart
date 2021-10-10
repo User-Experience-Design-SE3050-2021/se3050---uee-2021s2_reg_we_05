@@ -8,6 +8,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 
+//FEEDBACK PAGE
 class RatingPage extends StatefulWidget {
   @override
   _RatingPage createState() => _RatingPage();
@@ -34,7 +35,7 @@ class _RatingPage extends State<RatingPage> {
                     .doc(user.uid)
                     .set({'comments': _comments}).then((value) => {
                           Fluttertoast.showToast(
-                              msg: "Feedback recorded successfully",
+                              msg: "Feedback recorded successfully", //SUCCESSFUL TOAST MESSAGE
                               backgroundColor: Colors.grey,
                               fontSize: 18),
                           Navigator.of(context).push(
@@ -42,7 +43,7 @@ class _RatingPage extends State<RatingPage> {
                         });
               } catch (onError) {
         Fluttertoast.showToast(
-            msg: "ERROR: Unable to submit your feedback",
+            msg: "ERROR: Unable to submit your feedback", //UNSUCCESSFUL TOAST MESSAGE
             backgroundColor: Colors.grey,
             fontSize: 18);
       }
@@ -85,6 +86,7 @@ class _RatingPage extends State<RatingPage> {
                       : SizedBox.shrink()),
               SizedBox(height:10),
 
+              //TEXT AREA TO ADD THE COMMENTS
               Form(
                 key: _formKey,
                 child: Column(
@@ -103,6 +105,8 @@ class _RatingPage extends State<RatingPage> {
                           ),
                         ),
                       ),
+                     
+                      //VALIDATIONS TO ENSURE COMMENT SECTION IS NOT EMPTY
                       Container(
                         padding: const EdgeInsets.fromLTRB(40, 10, 40, 15),
                         child: TextFormField(

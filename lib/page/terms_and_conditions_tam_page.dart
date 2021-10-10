@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
+//TERMS AND CONDITIONS PAGE (TAMIL)
 class TermsAndConditionsTamilPage extends StatefulWidget {
   const TermsAndConditionsTamilPage({Key? key}) : super(key: key);
 
@@ -11,6 +12,7 @@ class TermsAndConditionsTamilPage extends StatefulWidget {
       _TermsAndConditionsTamilPageState();
 }
 
+//FIREBASE CONNECTIVITY
 class _TermsAndConditionsTamilPageState
     extends State<TermsAndConditionsTamilPage> {
   final FirebaseAuth _auth = FirebaseAuth.instance;

@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
+//CHANGE PASSWORD PAGE
 class ChangePasswordPage extends StatefulWidget {
   const ChangePasswordPage({Key? key}) : super(key: key);
 
@@ -40,6 +41,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
             fontSize: 18);
       }
 
+      //SUCCESSFUL/UNSUCCESSFUL TOAST MESSAGES
       user.reauthenticateWithCredential(cred).then((value) {
         user.updatePassword(_reconfirm_pw).then((value) {
           Fluttertoast.showToast(
@@ -96,7 +98,8 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                             ),
                           ),
                         ),
-
+                        
+                        //VALIDATIONS TO MAKE CURRENT PASSWORD FIELD REQUIRED AND PASSWORD LENGTH TO EXCEED 6 CHARACTERS
                         Container(
                           padding: const EdgeInsets.fromLTRB(40, 0, 40, 15),
                           child: TextFormField(
@@ -148,6 +151,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                           ),
                         ),
 
+                        //VALIDATIONS TO MAKE NEW PASSWORD FIELD REQUIRED AND PASSWORD LENGTH TO BE MORE THAN 6 CHARACTERS
                         Container(
                           padding: const EdgeInsets.fromLTRB(40, 0, 40, 15),
                           child: TextFormField(
@@ -199,6 +203,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                           ),
                         ),
 
+                        //VALIDATIONS TO ENSURE PASSWORDS DO NOT MATCH EACH OTHER AND PASSWORD LENGTH TO EXCEED 6 CHARACTERS
                         Container(
                           padding: const EdgeInsets.fromLTRB(40, 0, 40, 15),
                           child: TextFormField(

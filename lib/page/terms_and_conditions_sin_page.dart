@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
+//TERMS AND CONDITIONS PAGE (SINHALA)
 class TermsAndConditionsSinhalaPage extends StatefulWidget {
   const TermsAndConditionsSinhalaPage({Key? key}) : super(key: key);
 
@@ -11,6 +12,7 @@ class TermsAndConditionsSinhalaPage extends StatefulWidget {
       _TermsAndConditionsSinhalaPageState();
 }
 
+//FIREBASE CONNECTIVITY
 class _TermsAndConditionsSinhalaPageState
     extends State<TermsAndConditionsSinhalaPage> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
