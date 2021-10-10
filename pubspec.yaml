@@ -40,6 +40,8 @@ dependencies:
   fluttertoast: ^8.0.8
   firebase_storage: 10.0.3
   flutter_svg: ^0.22.0
+  image_cropper: ^1.4.1
+  # geolocator: ^7.6.2
 
 
 dev_dependencies:
@@ -61,6 +63,7 @@ flutter:
   assets:
      - images/police_logo.png
      - images/avatar.png
+     - images/background.png
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

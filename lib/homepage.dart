@@ -22,18 +22,32 @@ class _HomePageState extends State<HomePage> {
   bool isLoggedIn = false;
   File? image;
   var _firstName;
+  bool _inProgress = false;
 
   Future pickImage(ImageSource source) async {
+    this.setState(() {
+      _inProgress = true;
+    });
     try {
       final image = await ImagePicker().pickImage(source: source);
-      if (image == null) return;
-
-      final imageTemporary = File(image.path);
-      setState(() => this.image = imageTemporary);
+      if (image != null) {
+        final imageTemporary = File(image.path);
+      setState(() {
+        this.image = imageTemporary;
+      });
 
       Navigator.of(context).push(new MaterialPageRoute(
           builder: (context) =>
               new ViolationDetailsPage(violation_image: File(image.path))));
+
+      setState(() {
+        _inProgress = false;
+      });
+      } else {
+        setState(() {
+        _inProgress = false;
+      });
+      }
     } on PlatformException catch (e) {
       print('Failed to pick image $e');
     }
@@ -74,7 +88,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    double height = MediaQuery. of(context). size. height;
+    double height = MediaQuery.of(context).size.height;
 
     return Scaffold(
       backgroundColor: Colors.blue.shade100,
@@ -87,58 +101,65 @@ class _HomePageState extends State<HomePage> {
             ? CircularProgressIndicator()
             : Text('Hi ' + _firstName!.split(' ').first + '!'),
       ),
-      body: Container(
-        child: !isLoggedIn
-            ? SizedBox(
-                height: MediaQuery.of(context).size.height / 1.3,
-                child: Center(
-                  child: CircularProgressIndicator(),
-                ),
-              )
-            : Center(
-              child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                  'Need to report a violation?',
-                  style: TextStyle(
-                    fontFamily: 'Cardo',
-                    fontSize: 25,
-                    color: Color(0xff0C2551),
-                    fontWeight: FontWeight.w900,
+      body: (_inProgress) 
+      ? Center(
+          child: Column(
+            children: [
+              SizedBox(height: MediaQuery.of(context).size.height/3),
+              CircularProgressIndicator()
+            ],
+          )
+        )
+      : Container(
+          child: !isLoggedIn
+              ? SizedBox(
+                  height: MediaQuery.of(context).size.height / 1.3,
+                  child: Center(
+                    child: CircularProgressIndicator(),
                   ),
-                ),
-                SizedBox(height: 25),
-                MaterialButton(
-                  elevation: 10,
-                onPressed: () => pickImage(ImageSource.camera),
-                color: Colors.blue,
-                textColor: Colors.white,
-                child: Icon(
-                  Icons.camera_alt,
-                  size: 24,
-                ),
-                padding: EdgeInsets.all(45),
-                shape: CircleBorder(),
-              ),
-              SizedBox(height: 25),
-              SizedBox(
-                  width:300,
-                  child: Text(
-                  'Click the button above to open the camera and submit a picture of the violation',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontFamily: 'Nunito Sans',
-                    fontSize: 15,
-                    color: Colors.grey,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-                ),
-                ],
-              )
-            )
-      ),
+                )
+              : Center(
+                  child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Need to report a violation?',
+                      style: TextStyle(
+                        fontFamily: 'Cardo',
+                        fontSize: 25,
+                        color: Color(0xff0C2551),
+                        fontWeight: FontWeight.w900,
+                      ),
+                    ),
+                    SizedBox(height: 25),
+                    MaterialButton(
+                      elevation: 10,
+                      onPressed: () => pickImage(ImageSource.camera),
+                      color: Colors.blue,
+                      textColor: Colors.white,
+                      child: Icon(
+                        Icons.camera_alt,
+                        size: 24,
+                      ),
+                      padding: EdgeInsets.all(45),
+                      shape: CircleBorder(),
+                    ),
+                    SizedBox(height: 25),
+                    SizedBox(
+                      width: 300,
+                      child: Text(
+                        'Click the button above to open the camera and submit a picture of the violation',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontFamily: 'Nunito Sans',
+                          fontSize: 15,
+                          color: Colors.grey,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ),
+                  ],
+                ))),
     );
   }
 

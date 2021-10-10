@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:etraffic/homepage.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+// import 'package:geolocator/geolocator.dart';
 import 'package:path/path.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -28,8 +29,14 @@ class _ViolationDetailsPageState extends State<ViolationDetailsPage> {
 
   String _description = '';
   String _comment = '';
-  String _location = '';
+  var _location = "";
   String downloadUrl = '';
+
+  @override
+  void initState() {
+    super.initState();
+    // this.getCurrentLocation();
+  }
 
   saveViolation() {
     Fluttertoast.showToast(
@@ -81,6 +88,16 @@ class _ViolationDetailsPageState extends State<ViolationDetailsPage> {
       }
     }
   }
+
+  // void getCurrentLocation() async {
+  //   var position = await Geolocator.getCurrentPosition(
+  //       desiredAccuracy: LocationAccuracy.high);
+  //   var lastPosition = await Geolocator.getLastKnownPosition();
+  //   print(lastPosition);
+  //   setState(() {
+  //     _location = "$position";
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -218,6 +235,9 @@ class _ViolationDetailsPageState extends State<ViolationDetailsPage> {
                       Container(
                         padding: const EdgeInsets.fromLTRB(40, 0, 40, 15),
                         child: TextFormField(
+                          // initialValue: _location,
+                          initialValue: "35.1685326, 9.6584235",
+                          enabled: false,
                           keyboardType: TextInputType.number,
                           validator: (input) {
                             if (input != null && input.isEmpty)

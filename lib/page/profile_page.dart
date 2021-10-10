@@ -1,14 +1,13 @@
 import 'dart:io';
+import 'package:etraffic/start.dart';
 import 'package:etraffic/widget/avatar_widget.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:http/http.dart' as http;
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:etraffic/widget/profile_picture_widget.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'dart:developer';
+import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -69,10 +68,34 @@ class _ProfilePageState extends State<ProfilePage> {
   Future pickImage(ImageSource source) async {
     try {
       final image = await ImagePicker().pickImage(source: source);
-      if (image == null) return;
+      // if (image == null) return;
 
-      final imageTemporary = File(image.path);
-      setState(() => this.image = imageTemporary);
+      if (image != null) {
+        //cropping start
+        final cropped = await ImageCropper.cropImage(
+            sourcePath: image.path,
+            cropStyle: CropStyle.circle,
+            aspectRatio: CropAspectRatio(ratioX: 1, ratioY: 1),
+            compressQuality: 100,
+            maxWidth: 700,
+            maxHeight: 700,
+            compressFormat: ImageCompressFormat.jpg,
+            androidUiSettings: AndroidUiSettings(
+                toolbarColor: Colors.blue.shade700,
+                toolbarTitle: "Crop Image",
+                statusBarColor: Colors.blue.shade900,
+                activeControlsWidgetColor: Colors.blue.shade900,
+                backgroundColor: Colors.lightBlue[50]));
+        //cropping end
+        this.setState(() {
+          this.image = cropped;
+        });
+
+        await uploadProfilePicture(cropped!);
+      }
+
+      // final imageTemporary = File(image.path);
+      // setState(() => this.image = imageTemporary);
     } on PlatformException catch (e) {
       print('Failed to pick image $e');
     }
@@ -131,6 +154,18 @@ class _ProfilePageState extends State<ProfilePage> {
     }
   }
 
+  deleteProfile(BuildContext context) async {
+    user.delete().then((value) async => {
+          await firestore.collection('users').doc(user.uid).delete(),
+          Fluttertoast.showToast(
+              msg: "User deleted successfully",
+              backgroundColor: Colors.grey,
+              fontSize: 18),
+          Navigator.of(context)
+              .push(MaterialPageRoute(builder: (context) => Start()))
+        });
+  }
+
   uploadProfilePicture(File file) async {
     var storageRef = storage.ref().child('user/profile/${user.uid}');
     var uploadTask = storageRef.putFile(file);
@@ -171,7 +206,12 @@ class _ProfilePageState extends State<ProfilePage> {
                   case ConnectionState.active:
                   case ConnectionState.waiting:
                     return Center(
-                        child: CircularProgressIndicator()
+                      child: Column(
+                        children: [
+                          SizedBox(height: MediaQuery.of(context).size.height/3),
+                          CircularProgressIndicator()
+                        ],
+                      )
                     );
                   case ConnectionState.done:
                     return Container(
@@ -187,13 +227,18 @@ class _ProfilePageState extends State<ProfilePage> {
                                       backgroundImage: NetworkImage(urlImage)))
                               : Avatar(
                                   avatarUrl: downloadUrl,
-                                  onTap: () async {
-                                    var pickedFile = await ImagePicker()
-                                        .pickImage(source: ImageSource.gallery);
-                                    File image = File(pickedFile!.path);
+                                  onTap: () {
+                                    pickImage(ImageSource.gallery);
+                                  }
 
-                                    await uploadProfilePicture(image);
-                                  }),
+                                  // () async {
+                                  //   var pickedFile = await ImagePicker()
+                                  //       .pickImage(source: ImageSource.gallery);
+                                  //   File image = File(pickedFile!.path);
+
+                                  //   await uploadProfilePicture(image);
+                                  // }
+                                  ),
                           SizedBox(height: 30),
                           Container(
                             child: Form(
@@ -464,7 +509,54 @@ class _ProfilePageState extends State<ProfilePage> {
                                           padding: MaterialStateProperty.all<
                                                   EdgeInsetsGeometry>(
                                               EdgeInsets.fromLTRB(
-                                                  60, 15, 60, 15))),
+                                                  75, 15, 75, 15))),
+                                    ),
+                                    SizedBox(height: 13),
+                                    ElevatedButton(
+                                      onPressed: () => showDialog(
+                                          context: context,
+                                          builder: (BuildContext context) =>
+                                              AlertDialog(
+                                                title: Text('Confirm Deletion'),
+                                                content: Text(
+                                                    'Click "OK" to confirm deletion'),
+                                                actions: [
+                                                  TextButton(
+                                                      onPressed: () =>
+                                                          Navigator.pop(context,
+                                                              'Cancel'),
+                                                      child: Text('Cancel')),
+                                                  TextButton(
+                                                      onPressed: () =>
+                                                          Navigator.pop(
+                                                              context, 'OK'),
+                                                      child: Text('OK'))
+                                                ],
+                                              )).then((value) => {
+                                            if (value == 'OK')
+                                              {deleteProfile(context)}
+                                          }),
+                                      child: Text(
+                                        'DELETE',
+                                        style: TextStyle(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.white),
+                                      ),
+                                      style: ButtonStyle(
+                                          shape: MaterialStateProperty.all<
+                                                  RoundedRectangleBorder>(
+                                              RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(100.0),
+                                          )),
+                                          backgroundColor:
+                                              MaterialStateProperty.all<Color>(
+                                                  Colors.red.shade800),
+                                          padding: MaterialStateProperty.all<
+                                                  EdgeInsetsGeometry>(
+                                              EdgeInsets.fromLTRB(
+                                                  119, 15, 119, 15))),
                                     ),
 
                                     SizedBox(height: 30),
