@@ -61,6 +61,7 @@ class _SignUpState extends State<SignUp> {
             'mobile': _mobile
           });
         }
+        //send email verification mail to verify the account
         if (user != null){
            user.sendEmailVerification();
                Navigator.of(context).pop();
@@ -89,16 +90,19 @@ class _SignUpState extends State<SignUp> {
         });
   }
 
+  //navigate to login page
   navigateToLogin(){
     Navigator.push(
             context, MaterialPageRoute(builder: (context) => Login()));
   }
 
+  //navigate to terms and conditions page
   navigateToTermsAndConditions() {
     Navigator.push(
             context, MaterialPageRoute(builder: (context) => TermsAndConditionsPage()));
   }
 
+  //navigate to privacy policy page
   navigateToPrivacyPolicy() {
     Navigator.push(
             context, MaterialPageRoute(builder: (context) => PrivacyPolicyPage()));
