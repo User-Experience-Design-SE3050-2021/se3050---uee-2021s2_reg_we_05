@@ -15,10 +15,12 @@ class Start extends StatefulWidget {
 }
 
 class _StartState extends State<Start> {
+  //navigate to login page
   navigateToLogin() async {
     Navigator.push(context, MaterialPageRoute(builder: (context) => Login()));
   }
 
+  //navigate to register page
   navigateToRegister() async {
     Navigator.push(context, MaterialPageRoute(builder: (context) => SignUp()));
   }
