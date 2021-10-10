@@ -52,6 +52,7 @@ class _ViolationDetailsViewPageState extends State<ViolationDetailsViewPage> {
     result = endRemoved.split('violation%2F')[1];
   }
 
+//method to update violatins
   updateViolation() async {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
@@ -69,37 +70,39 @@ class _ViolationDetailsViewPageState extends State<ViolationDetailsViewPage> {
           'location': _location,
           'dateTime': new DateTime.now()
         }).then((value) => {
-            Fluttertoast.showToast(
-                msg: "Details updated successfully",
-                backgroundColor: Colors.grey,
-                fontSize: 18)
-          });
+                  Fluttertoast.showToast(
+                      msg: "Details updated successfully",
+                      backgroundColor: Colors.grey,
+                      fontSize: 18)
+                });
       } catch (onError) {
         print(onError);
       }
     }
   }
 
+//method to delete violation
   deleteViolation(String val, BuildContext context) async {
     storage
         .ref()
         .child('violations/user/${user.uid}/violation/$result')
         .delete()
         .then((value) => {
-          firestore
-            .collection('violations')
-            .doc(user.uid)
-            .collection('violation')
-            .doc(result)
-            .delete().then((value) => {
-              Fluttertoast.showToast(
-                msg: "Violation deleted successfully",
-                backgroundColor: Colors.grey,
-                fontSize: 18),
-              Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => HomePage()))
-            })
-        });
+              firestore
+                  .collection('violations')
+                  .doc(user.uid)
+                  .collection('violation')
+                  .doc(result)
+                  .delete()
+                  .then((value) => {
+                        Fluttertoast.showToast(
+                            msg: "Violation deleted successfully",
+                            backgroundColor: Colors.grey,
+                            fontSize: 18),
+                        Navigator.of(context).push(
+                            MaterialPageRoute(builder: (context) => HomePage()))
+                      })
+            });
   }
 
   @override
@@ -112,9 +115,7 @@ class _ViolationDetailsViewPageState extends State<ViolationDetailsViewPage> {
               return Text('none');
             case ConnectionState.active:
             case ConnectionState.waiting:
-              return Center(
-                        child: CircularProgressIndicator()
-                    );
+              return Center(child: CircularProgressIndicator());
             case ConnectionState.done:
               return Scaffold(
                 backgroundColor: Colors.lightBlue[50],
@@ -133,17 +134,16 @@ class _ViolationDetailsViewPageState extends State<ViolationDetailsViewPage> {
                         Text(
                           _status,
                           style: TextStyle(
-                            fontFamily: 'Nunito Sans',
-                            fontSize: 17,
-                            fontWeight: FontWeight.w700,
-                            color: (_status == 'Submitted') 
-                            ? Colors.lightGreen[300]
-                            : (_status == 'In review') 
-                            ? Colors.orange
-                            : (_status == 'Rejected') 
-                            ? Colors.red
-                            : Colors.green
-                          ),
+                              fontFamily: 'Nunito Sans',
+                              fontSize: 17,
+                              fontWeight: FontWeight.w700,
+                              color: (_status == 'Submitted')
+                                  ? Colors.lightGreen[300]
+                                  : (_status == 'In review')
+                                      ? Colors.orange
+                                      : (_status == 'Rejected')
+                                          ? Colors.red
+                                          : Colors.green),
                         ),
                         SizedBox(height: 20),
                         Image.network(
@@ -159,7 +159,8 @@ class _ViolationDetailsViewPageState extends State<ViolationDetailsViewPage> {
                                 Align(
                                   alignment: Alignment.centerLeft,
                                   child: Padding(
-                                    padding: const EdgeInsets.only(left: 50.0, bottom: 8),
+                                    padding: const EdgeInsets.only(
+                                        left: 50.0, bottom: 8),
                                     child: Text(
                                       'Description',
                                       style: TextStyle(
@@ -170,46 +171,50 @@ class _ViolationDetailsViewPageState extends State<ViolationDetailsViewPage> {
                                     ),
                                   ),
                                 ),
-                                
                                 Container(
-                                  padding: const EdgeInsets.fromLTRB(40, 0, 40, 15),
+                                  padding:
+                                      const EdgeInsets.fromLTRB(40, 0, 40, 15),
                                   child: TextFormField(
-                                      initialValue: _description,
-                                      validator: (input) {
-                                        if (input != null && input.isEmpty)
-                                          return 'Description cannot be empty';
-                                      },
-                                      onSaved: (input) => _description = input.toString(),
-                                      style: TextStyle(
-                                          fontSize: 19,
-                                          color: Color(0xff0962ff),
-                                          fontWeight: FontWeight.bold),
-                                      decoration: InputDecoration(
-                                        hintText: 'Parking on the wrong side',
-                                        hintStyle: TextStyle(
-                                            fontSize: 18,
-                                            color: Colors.grey[350],
-                                            fontWeight: FontWeight.w600),
-                                        contentPadding:
-                                            EdgeInsets.symmetric(vertical: 20, horizontal: 25),
-                                        focusColor: Color(0xff0962ff),
-                                        focusedBorder: OutlineInputBorder(
-                                          borderRadius: BorderRadius.circular(20),
-                                          borderSide: BorderSide(color: Color(0xff0962ff)),
-                                        ),
-                                        enabledBorder: OutlineInputBorder(
-                                          borderRadius: BorderRadius.circular(20),
+                                    initialValue: _description,
+                                    validator: (input) {
+                                      if (input != null && input.isEmpty)
+                                        return 'Description cannot be empty';
+                                    },
+                                    onSaved: (input) =>
+                                        _description = input.toString(),
+                                    style: TextStyle(
+                                        fontSize: 19,
+                                        color: Color(0xff0962ff),
+                                        fontWeight: FontWeight.bold),
+                                    decoration: InputDecoration(
+                                      hintText: 'Parking on the wrong side',
+                                      hintStyle: TextStyle(
+                                          fontSize: 18,
+                                          color: Colors.grey[350],
+                                          fontWeight: FontWeight.w600),
+                                      contentPadding: EdgeInsets.symmetric(
+                                          vertical: 20, horizontal: 25),
+                                      focusColor: Color(0xff0962ff),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(20),
+                                        borderSide: BorderSide(
+                                            color: Color(0xff0962ff)),
+                                      ),
+                                      enabledBorder: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(20),
                                           borderSide: BorderSide(
                                             color: (Colors.grey[350])!,
                                           )),
-                                        ),
-                                      ),
+                                    ),
+                                  ),
                                 ),
                                 SizedBox(height: 10),
                                 Align(
                                   alignment: Alignment.centerLeft,
                                   child: Padding(
-                                    padding: const EdgeInsets.only(left: 50.0, bottom: 8),
+                                    padding: const EdgeInsets.only(
+                                        left: 50.0, bottom: 8),
                                     child: Text(
                                       'Comment/Suggestion',
                                       style: TextStyle(
@@ -220,42 +225,47 @@ class _ViolationDetailsViewPageState extends State<ViolationDetailsViewPage> {
                                     ),
                                   ),
                                 ),
-                                
                                 Container(
-                                  padding: const EdgeInsets.fromLTRB(40, 0, 40, 15),
+                                  padding:
+                                      const EdgeInsets.fromLTRB(40, 0, 40, 15),
                                   child: TextFormField(
-                                      initialValue: _comment,
-                                      onSaved: (input) => _comment = input.toString(),
-                                      style: TextStyle(
-                                          fontSize: 19,
-                                          color: Color(0xff0962ff),
-                                          fontWeight: FontWeight.bold),
-                                      decoration: InputDecoration(
-                                        hintText: 'Had parked blocking an entrance',
-                                        hintStyle: TextStyle(
-                                            fontSize: 18,
-                                            color: Colors.grey[350],
-                                            fontWeight: FontWeight.w600),
-                                        contentPadding:
-                                            EdgeInsets.symmetric(vertical: 20, horizontal: 25),
-                                        focusColor: Color(0xff0962ff),
-                                        focusedBorder: OutlineInputBorder(
-                                          borderRadius: BorderRadius.circular(20),
-                                          borderSide: BorderSide(color: Color(0xff0962ff)),
-                                        ),
-                                        enabledBorder: OutlineInputBorder(
-                                          borderRadius: BorderRadius.circular(20),
+                                    initialValue: _comment,
+                                    onSaved: (input) =>
+                                        _comment = input.toString(),
+                                    style: TextStyle(
+                                        fontSize: 19,
+                                        color: Color(0xff0962ff),
+                                        fontWeight: FontWeight.bold),
+                                    decoration: InputDecoration(
+                                      hintText:
+                                          'Had parked blocking an entrance',
+                                      hintStyle: TextStyle(
+                                          fontSize: 18,
+                                          color: Colors.grey[350],
+                                          fontWeight: FontWeight.w600),
+                                      contentPadding: EdgeInsets.symmetric(
+                                          vertical: 20, horizontal: 25),
+                                      focusColor: Color(0xff0962ff),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(20),
+                                        borderSide: BorderSide(
+                                            color: Color(0xff0962ff)),
+                                      ),
+                                      enabledBorder: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(20),
                                           borderSide: BorderSide(
                                             color: (Colors.grey[350])!,
                                           )),
-                                        ),
-                                      ),
+                                    ),
+                                  ),
                                 ),
                                 SizedBox(height: 10),
-                              Align(
+                                Align(
                                   alignment: Alignment.centerLeft,
                                   child: Padding(
-                                    padding: const EdgeInsets.only(left: 50.0, bottom: 8),
+                                    padding: const EdgeInsets.only(
+                                        left: 50.0, bottom: 8),
                                     child: Text(
                                       'Location',
                                       style: TextStyle(
@@ -266,43 +276,46 @@ class _ViolationDetailsViewPageState extends State<ViolationDetailsViewPage> {
                                     ),
                                   ),
                                 ),
-                                
                                 Container(
-                                  padding: const EdgeInsets.fromLTRB(40, 0, 40, 15),
+                                  padding:
+                                      const EdgeInsets.fromLTRB(40, 0, 40, 15),
                                   child: TextFormField(
-                                      initialValue: _location,
-                                      keyboardType: TextInputType.number,
-                                      validator: (input) {
-                                        if (input != null && input.isEmpty)
-                                          return 'Location cannot be empty';
-                                      },
-                                      onSaved: (input) => _location = input.toString(),
-                                      style: TextStyle(
-                                          fontSize: 19,
-                                          color: Color(0xff0962ff),
-                                          fontWeight: FontWeight.bold),
-                                      decoration: InputDecoration(
-                                        hintText: '42.048, 2.483',
-                                        hintStyle: TextStyle(
-                                            fontSize: 18,
-                                            color: Colors.grey[350],
-                                            fontWeight: FontWeight.w600),
-                                        contentPadding:
-                                            EdgeInsets.symmetric(vertical: 20, horizontal: 25),
-                                        focusColor: Color(0xff0962ff),
-                                        focusedBorder: OutlineInputBorder(
-                                          borderRadius: BorderRadius.circular(20),
-                                          borderSide: BorderSide(color: Color(0xff0962ff)),
-                                        ),
-                                        enabledBorder: OutlineInputBorder(
-                                          borderRadius: BorderRadius.circular(20),
+                                    initialValue: _location,
+                                    keyboardType: TextInputType.number,
+                                    validator: (input) {
+                                      if (input != null && input.isEmpty)
+                                        return 'Location cannot be empty';
+                                    },
+                                    onSaved: (input) =>
+                                        _location = input.toString(),
+                                    style: TextStyle(
+                                        fontSize: 19,
+                                        color: Color(0xff0962ff),
+                                        fontWeight: FontWeight.bold),
+                                    decoration: InputDecoration(
+                                      hintText: '42.048, 2.483',
+                                      hintStyle: TextStyle(
+                                          fontSize: 18,
+                                          color: Colors.grey[350],
+                                          fontWeight: FontWeight.w600),
+                                      contentPadding: EdgeInsets.symmetric(
+                                          vertical: 20, horizontal: 25),
+                                      focusColor: Color(0xff0962ff),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(20),
+                                        borderSide: BorderSide(
+                                            color: Color(0xff0962ff)),
+                                      ),
+                                      enabledBorder: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(20),
                                           borderSide: BorderSide(
                                             color: (Colors.grey[350])!,
                                           )),
-                                        ),
-                                      ),
+                                    ),
+                                  ),
                                 ),
-                              SizedBox(height: 20),
+                                SizedBox(height: 20),
                                 SizedBox(height: 20),
                                 if (_status == 'Submitted') ...[
                                   Row(
@@ -319,12 +332,21 @@ class _ViolationDetailsViewPageState extends State<ViolationDetailsViewPage> {
                                                 color: Colors.white),
                                           ),
                                           style: ButtonStyle(
-                                              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                                              shape: MaterialStateProperty.all<
+                                                      RoundedRectangleBorder>(
                                                   RoundedRectangleBorder(
-                                                      borderRadius: BorderRadius.circular(100.0),
-                                                      )),
-                                              backgroundColor: MaterialStateProperty.all<Color>(Colors.blue.shade800),
-                                              padding: MaterialStateProperty.all<EdgeInsetsGeometry>(EdgeInsets.fromLTRB(50, 15, 50, 15))),
+                                                borderRadius:
+                                                    BorderRadius.circular(
+                                                        100.0),
+                                              )),
+                                              backgroundColor:
+                                                  MaterialStateProperty.all<
+                                                          Color>(
+                                                      Colors.blue.shade800),
+                                              padding: MaterialStateProperty
+                                                  .all<EdgeInsetsGeometry>(
+                                                      EdgeInsets.fromLTRB(
+                                                          50, 15, 50, 15))),
                                         ),
                                         SizedBox(width: 10),
                                         ElevatedButton(
@@ -352,10 +374,13 @@ class _ViolationDetailsViewPageState extends State<ViolationDetailsViewPage> {
                                                           child: Text('OK'))
                                                     ],
                                                   )).then((value) => {
-                                                    if(value == 'OK'){
-                                                      deleteViolation(value.toString(), context)
-                                                    }
-                                                  }),
+                                                if (value == 'OK')
+                                                  {
+                                                    deleteViolation(
+                                                        value.toString(),
+                                                        context)
+                                                  }
+                                              }),
                                           child: Text(
                                             'DELETE',
                                             style: TextStyle(
@@ -364,15 +389,24 @@ class _ViolationDetailsViewPageState extends State<ViolationDetailsViewPage> {
                                                 color: Colors.white),
                                           ),
                                           style: ButtonStyle(
-                                              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                                              shape: MaterialStateProperty.all<
+                                                      RoundedRectangleBorder>(
                                                   RoundedRectangleBorder(
-                                                      borderRadius: BorderRadius.circular(100.0),
-                                                      )),
-                                              backgroundColor: MaterialStateProperty.all<Color>(Colors.red.shade800),
-                                              padding: MaterialStateProperty.all<EdgeInsetsGeometry>(EdgeInsets.fromLTRB(50, 15, 50, 15))),
+                                                borderRadius:
+                                                    BorderRadius.circular(
+                                                        100.0),
+                                              )),
+                                              backgroundColor:
+                                                  MaterialStateProperty.all<
+                                                          Color>(
+                                                      Colors.red.shade800),
+                                              padding: MaterialStateProperty
+                                                  .all<EdgeInsetsGeometry>(
+                                                      EdgeInsets.fromLTRB(
+                                                          50, 15, 50, 15))),
                                         ),
                                       ]),
-                                      SizedBox(height: 30)
+                                  SizedBox(height: 30)
                                 ]
                               ],
                             ),
