@@ -10,8 +10,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
-import 'package:etraffic/verify.dart';
-import 'package:etraffic/homepage.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({Key? key}) : super(key: key);
@@ -25,6 +23,9 @@ class _SignUpState extends State<SignUp> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   FirebaseFirestore firestore = FirebaseFirestore.instance;
 
+  final TextEditingController _pass = TextEditingController();
+  final TextEditingController _confirmPass = TextEditingController();
+
   String _first_name = '';
   String _last_name = '';
   String _mobile = '';
@@ -36,7 +37,7 @@ class _SignUpState extends State<SignUp> {
     _auth.authStateChanges().listen((user) async {
       if (user != null) {
         Navigator.push(
-            context, MaterialPageRoute(builder: (context) =>HomePage()));
+            context, MaterialPageRoute(builder: (context) =>Login()));
       }
     });
   }
@@ -64,7 +65,8 @@ class _SignUpState extends State<SignUp> {
         //send email verification mail to verify the account
         if (user != null){
            user.sendEmailVerification();
-               Navigator.of(context).pop();
+               Navigator.push(
+            context, MaterialPageRoute(builder: (context) => Login()));
         }
       } catch (e) {
         showError(e.toString());
@@ -412,10 +414,17 @@ class _SignUpState extends State<SignUp> {
                           padding: const EdgeInsets.fromLTRB(40, 0, 40, 15),
                           child: TextFormField(
                               obscureText: true,
+                              controller: _pass,
                               validator: (input) {
                                 if (input != null && input.isEmpty)
                                   return 'Password cannot be empty';
                               },
+                          //      controller: _pass,
+                          //  validator: (input){
+                          //     if(input.isEmpty)
+                          //          return 'Empty';
+                          //     return null;
+                          //     }
                               onSaved: (input) => _password = input.toString(),
                               style: TextStyle(
                                   fontSize: 19,
@@ -466,10 +475,21 @@ class _SignUpState extends State<SignUp> {
                           padding: const EdgeInsets.fromLTRB(40, 0, 40, 15),
                           child: TextFormField(
                               obscureText: true,
+                              controller: _confirmPass,
                               validator: (input) {
                                 if (input != null && input.isEmpty)
                                   return 'Confirm password cannot be empty';
+                                if(input != _pass.text)
+                                return "Password does not match";
                               },
+                          //     controller: _confirmPass,
+                          //  validator: (input){
+                          //     if(input.isEmpty)
+                          //          return 'Empty';
+                          //     if(val != _pass.text)
+                          //          return 'Not Match'
+                          //     return null;
+                          //     }
                               onSaved: (input) => _confirm_password = input.toString(),
                               style: TextStyle(
                                   fontSize: 19,
