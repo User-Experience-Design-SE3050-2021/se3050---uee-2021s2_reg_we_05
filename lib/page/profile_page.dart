@@ -29,6 +29,8 @@ class _ProfilePageState extends State<ProfilePage> {
   var _first_name;
   var _last_name;
   var _mobile;
+  var _nic;
+  var _license;
   var _email;
   var urlImage;
   var name;
@@ -56,6 +58,8 @@ class _ProfilePageState extends State<ProfilePage> {
         .get()
         .then((value) {
       _mobile = value.data()!['mobile'];
+      _nic = value.data()!['nic'];
+      _license = value.data()!['license'];
     });
 
     //getting profile pic
@@ -139,7 +143,11 @@ class _ProfilePageState extends State<ProfilePage> {
         await firestore
             .collection('users')
             .doc(user.uid)
-            .set({'mobile': _mobile}).then((value) => {
+            .set({
+              'mobile': _mobile,
+              'nic': _nic,
+              'license': _license
+              }).then((value) => {
                   Fluttertoast.showToast(
                       msg: "Details updated successfully",
                       backgroundColor: Colors.grey,
@@ -462,6 +470,118 @@ class _ProfilePageState extends State<ProfilePage> {
                                             fontWeight: FontWeight.bold),
                                         decoration: InputDecoration(
                                           hintText: '0771234567',
+                                          hintStyle: TextStyle(
+                                              fontSize: 18,
+                                              color: Colors.grey[350],
+                                              fontWeight: FontWeight.w600),
+                                          contentPadding: EdgeInsets.symmetric(
+                                              vertical: 20, horizontal: 25),
+                                          focusColor: Color(0xff0962ff),
+                                          focusedBorder: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(20),
+                                            borderSide: BorderSide(
+                                                color: Color(0xff0962ff)),
+                                          ),
+                                          enabledBorder: OutlineInputBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(20),
+                                              borderSide: BorderSide(
+                                                color: (Colors.grey[350])!,
+                                              )),
+                                        ),
+                                      ),
+                                    ),
+
+                                    SizedBox(
+                                      height: 5,
+                                    ),
+                                    //
+                                    Align(
+                                      alignment: Alignment.centerLeft,
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 50.0, bottom: 8),
+                                        child: Text(
+                                          'NIC Number',
+                                          style: TextStyle(
+                                            fontFamily: 'Product Sans',
+                                            fontSize: 15,
+                                            color: Color(0xff8f9db5),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+
+                                    Container(
+                                      padding: const EdgeInsets.fromLTRB(
+                                          40, 0, 40, 15),
+                                      child: TextFormField(
+                                        initialValue: _nic,
+                                        onSaved: (input) =>
+                                            _nic = input.toString(),
+                                        style: TextStyle(
+                                            fontSize: 19,
+                                            color: Color(0xff0962ff),
+                                            fontWeight: FontWeight.bold),
+                                        decoration: InputDecoration(
+                                          hintText: '965364823V',
+                                          hintStyle: TextStyle(
+                                              fontSize: 18,
+                                              color: Colors.grey[350],
+                                              fontWeight: FontWeight.w600),
+                                          contentPadding: EdgeInsets.symmetric(
+                                              vertical: 20, horizontal: 25),
+                                          focusColor: Color(0xff0962ff),
+                                          focusedBorder: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(20),
+                                            borderSide: BorderSide(
+                                                color: Color(0xff0962ff)),
+                                          ),
+                                          enabledBorder: OutlineInputBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(20),
+                                              borderSide: BorderSide(
+                                                color: (Colors.grey[350])!,
+                                              )),
+                                        ),
+                                      ),
+                                    ),
+
+                                    SizedBox(
+                                      height: 5,
+                                    ),
+                                    //
+                                    Align(
+                                      alignment: Alignment.centerLeft,
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 50.0, bottom: 8),
+                                        child: Text(
+                                          'Driving License Number',
+                                          style: TextStyle(
+                                            fontFamily: 'Product Sans',
+                                            fontSize: 15,
+                                            color: Color(0xff8f9db5),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+
+                                    Container(
+                                      padding: const EdgeInsets.fromLTRB(
+                                          40, 0, 40, 15),
+                                      child: TextFormField(
+                                        initialValue: _license,
+                                        onSaved: (input) =>
+                                            _license = input.toString(),
+                                        style: TextStyle(
+                                            fontSize: 19,
+                                            color: Color(0xff0962ff),
+                                            fontWeight: FontWeight.bold),
+                                        decoration: InputDecoration(
+                                          hintText: 'B2569845',
                                           hintStyle: TextStyle(
                                               fontSize: 18,
                                               color: Colors.grey[350],
